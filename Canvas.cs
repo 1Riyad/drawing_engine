@@ -23,21 +23,43 @@ namespace LimitlessDrawEngine
             this.Shapes = ShapeManager.load(@"");
         }
 
-        public void addLine()
+        public void addShape()
         {
-            Line line = new Line(new Pen(this.Pen.Brush, this.Pen.Width), pointA, pointB);
+            switch (this.Type)
+            {
+                case ShapeType.Line:
+                    this.addLine();
+                    break;
+                case ShapeType.RectAngle:
+                    this.addRectangle();
+                    break;
+                case ShapeType.Circle:
+                    this.addCircle();
+                    break;
+            }
+        }
+
+        private void addLine()
+        {
+            Pen pen = new Pen(this.Pen.Brush, this.Pen.Width);
+            pen.DashStyle = this.Pen.DashStyle;
+            Line line = new Line(pen, pointA, pointB);
             this.Shapes.Add(line);
         }
 
-        public void addRectangle()
+        private void addRectangle()
         {
-            Rectangle rectangle = new Rectangle(new Pen(this.Pen.Brush, this.Pen.Width), pointA, pointB);
+            Pen pen = new Pen(this.Pen.Brush, this.Pen.Width);
+            pen.DashStyle = this.Pen.DashStyle;
+            Rectangle rectangle = new Rectangle(pen, pointA, pointB);
             this.Shapes.Add(rectangle);
         }
 
-        public void addCircle()
+        private void addCircle()
         {
-            Circle circle = new Circle(new Pen(this.Pen.Brush, this.Pen.Width), pointA, pointB);
+            Pen pen = new Pen(this.Pen.Brush, this.Pen.Width);
+            pen.DashStyle = this.Pen.DashStyle;
+            Circle circle = new Circle(pen, pointA, pointB);
             this.Shapes.Add(circle);
         }
 

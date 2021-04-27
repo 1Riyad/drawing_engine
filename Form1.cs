@@ -40,18 +40,7 @@ namespace LimitlessDrawEngine
             this.canvas.pointB.Y = e.Y;
             this.canvas.Pen.DashStyle = this.getDashStyle();
 
-            switch(this.canvas.Type)
-            {
-                case ShapeType.Line:
-                    this.canvas.addLine();
-                    break;
-                case ShapeType.RectAngle:
-                    this.canvas.addRectangle();
-                    break;
-                case ShapeType.Circle:
-                    this.canvas.addCircle();
-                    break;
-            }
+            this.canvas.addShape();
 
             this.drawingCanvas.Invalidate();
         }
@@ -63,39 +52,7 @@ namespace LimitlessDrawEngine
 
         private void panel3_MouseClick(object sender, MouseEventArgs e)
         {
-            ColorDialog colorPicker = new ColorDialog();
-
-            if (colorPicker.ShowDialog() == DialogResult.OK)
-            {
-                this.panel3.BackColor = colorPicker.Color;
-                this.canvas.Pen.Color = colorPicker.Color;
-            }
-        }
-
-        private DashStyle getDashStyle()
-        {
-            DashStyle result = DashStyle.Solid;
-
-            switch (this.comboBox3.SelectedIndex)
-            {
-                case 0:
-                    result = DashStyle.Solid;
-                    break;
-                case 1:
-                    result = DashStyle.Dot;
-                    break;
-                case 2:
-                    result = DashStyle.Dash;
-                    break;
-                case 3:
-                    result = DashStyle.DashDot;
-                    break;
-                case 4:
-                    result = DashStyle.DashDotDot;
-                    break;
-            }
-
-            return result;
+            updateColor();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -111,6 +68,36 @@ namespace LimitlessDrawEngine
         private void pictureBox3_Click(object sender, EventArgs e)
         {
             this.canvas.Type = ShapeType.Circle;
+        }
+
+        private void updateColor()
+        {
+            ColorDialog colorPicker = new ColorDialog();
+
+            if (colorPicker.ShowDialog() == DialogResult.OK)
+            {
+                this.panel3.BackColor = colorPicker.Color;
+                this.canvas.Pen.Color = colorPicker.Color;
+            }
+        }
+
+        private DashStyle getDashStyle()
+        {
+            switch (this.comboBox3.SelectedIndex)
+            {
+                case 0:
+                    return DashStyle.Solid;
+                case 1:
+                    return DashStyle.Dot;
+                case 2:
+                    return DashStyle.Dash;
+                case 3:
+                    return DashStyle.DashDot;
+                case 4:
+                    return DashStyle.DashDotDot;
+            }
+
+            return DashStyle.Solid;
         }
     }
 }

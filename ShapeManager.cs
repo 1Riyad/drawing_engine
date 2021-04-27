@@ -129,12 +129,15 @@ namespace LimitlessDrawEngine
                         {
                             case "line":
                                 Line line = loadLine(reader);
+                                shapes.Add(line);
                                 break;
                             case "rectangle":
                                 Rectangle rectangle = loadRectangle(reader);
+                                shapes.Add(rectangle);
                                 break;
                             case "circle":
                                 Circle circle = loadCircle(reader);
+                                shapes.Add(circle);
                                 break;
                         }
                     }
