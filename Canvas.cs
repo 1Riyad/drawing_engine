@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LimitlessDrawEngine
@@ -23,7 +19,8 @@ namespace LimitlessDrawEngine
         public Canvas()
         {
             this.Pen = new Pen(Brushes.Black, 2);
-            this.Shapes = new();
+            this.Type = ShapeType.None;
+            this.Shapes = ShapeManager.load(@"");
         }
 
         public void addLine()
