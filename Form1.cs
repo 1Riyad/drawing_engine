@@ -14,22 +14,10 @@ namespace LimitlessDrawEngine
     public partial class Form1 : Form
     {
         private Canvas canvas;
-        private List<Shape> shapesList;
-
-        // Canvas
-        public ShapeType Type { get; set; }
-        public Pen Pen { get; set; }
-        public Shape SelectedShape { get; set; }
-
-        // line code
-        private Point pointA = new Point(0, 0);
-        private Point pointB = new Point(0, 0);
 
         public Form1()
         {
-            this.shapesList = new();
-            this.Pen = new Pen(Brushes.Black, 2);
-            Type = ShapeType.Line;
+            canvas = new Canvas();
 
             InitializeComponent();
         }
@@ -37,74 +25,31 @@ namespace LimitlessDrawEngine
         private void drawingCanvas_Paint(object sender, PaintEventArgs e)
         {
             Graphics graphic = e.Graphics;
-
-            foreach(var shape in this.shapesList)
-            {
-                if(shape.GetType() == typeof(Line))
-                {
-                    graphic.DrawLine(shape.Pen, shape.pointA, shape.pointB);
-                }
-                else if (shape.GetType() == typeof(Rectangle))
-                {
-                    int[] distance = getDistance(shape);
-                    int xDistance = distance[0];
-                    int yDistance = distance[1];
-                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X), Math.Min(shape.pointA.Y, shape.pointB.Y));
-                    int width = xDistance;
-                    int height = yDistance;
-                    graphic.DrawRectangle(shape.Pen, point.X, point.Y, width, height);
-                }
-                else if (shape.GetType() == typeof(Circle))
-                {
-                    int[] distance = getDistance(shape);
-                    int xDistance = distance[0];
-                    int yDistance = distance[1];
-                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X), Math.Min(shape.pointA.Y, shape.pointB.Y));
-                    int width = xDistance;
-                    int height = yDistance;
-
-                    graphic.DrawEllipse(shape.Pen, point.X, point.Y, width, height);
-                }
-            }
-        }
-
-        private int[] getDistance(Shape shape)
-        {
-            int[] result = new int[2];
-            result[0] = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
-            result[1] = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
-            return result;
+            canvas.draw(graphic);
         }
 
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
-            pointA.X = e.X;
-            pointA.Y = e.Y;
+            this.canvas.pointA.X = e.X;
+            this.canvas.pointA.Y = e.Y;
         }
 
         private void drawingCanvas_MouseUp(object sender, MouseEventArgs e)
         {
-            pointB.X = e.X;
-            pointB.Y = e.Y;
+            this.canvas.pointB.X = e.X;
+            this.canvas.pointB.Y = e.Y;
+            this.canvas.Pen.DashStyle = this.getDashStyle();
 
-            this.Pen.DashStyle = this.getDashStyle();
-
-            switch(this.Type)
+            switch(this.canvas.Type)
             {
                 case ShapeType.Line:
-                    Line line = new Line(pointA, pointB);
-                    line.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
-                    this.shapesList.Add(line);
+                    this.canvas.addLine();
                     break;
                 case ShapeType.RectAngle:
-                    Rectangle rectangle = new Rectangle(pointA, pointB);
-                    rectangle.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
-                    this.shapesList.Add(rectangle);
+                    this.canvas.addRectangle();
                     break;
                 case ShapeType.Circle:
-                    Circle circle = new Circle(pointA, pointB);
-                    circle.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
-                    this.shapesList.Add(circle);
+                    this.canvas.addCircle();
                     break;
             }
 
@@ -113,7 +58,7 @@ namespace LimitlessDrawEngine
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            this.Pen.Width = (float) this.numericUpDown1.Value;
+            this.canvas.Pen.Width = (float) this.numericUpDown1.Value;
         }
 
         private void panel3_MouseClick(object sender, MouseEventArgs e)
@@ -123,7 +68,7 @@ namespace LimitlessDrawEngine
             if (colorPicker.ShowDialog() == DialogResult.OK)
             {
                 this.panel3.BackColor = colorPicker.Color;
-                this.Pen.Color = colorPicker.Color;
+                this.canvas.Pen.Color = colorPicker.Color;
             }
         }
 
@@ -155,17 +100,17 @@ namespace LimitlessDrawEngine
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            this.Type = ShapeType.Line;
+            this.canvas.Type = ShapeType.Line;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            this.Type = ShapeType.RectAngle;
+            this.canvas.Type = ShapeType.RectAngle;
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            this.Type = ShapeType.Circle;
+            this.canvas.Type = ShapeType.Circle;
         }
     }
 }

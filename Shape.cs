@@ -14,6 +14,14 @@ namespace LimitlessDrawEngine
         public Point pointB { get; set; }
         public Color Color { get; set; }
         public bool isSelected { get; set; }
+        
+        public Shape(Pen pen, Point pointA, Point pointB)
+        {
+            this.Pen = pen;
+            this.pointA = pointA;
+            this.pointB = pointB;
+        }
+
         public abstract void Draw(Graphics graphic);
     }
 }
