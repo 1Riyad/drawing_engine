@@ -46,11 +46,22 @@ namespace LimitlessDrawEngine
                 }
                 else if (shape.GetType() == typeof(Rectangle))
                 {
-                    // graphic.DrawRectangle();
+                    int xDistance = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
+                    int yDistance = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
+                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X) + (xDistance / 2), Math.Min(shape.pointA.Y, shape.pointB.Y) + (yDistance / 2));
+                    int width = xDistance;
+                    int height = yDistance;
+                    graphic.DrawRectangle(shape.Pen, point.X, point.Y, width, height);
                 }
                 else if (shape.GetType() == typeof(Circle))
                 {
-                    // graphic.DrawPie();
+                    int xDistance = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
+                    int yDistance = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
+                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X) + (xDistance / 2), Math.Min(shape.pointA.Y, shape.pointB.Y) + (yDistance / 2));
+                    int width = xDistance;
+                    int height = yDistance;
+
+                    graphic.DrawEllipse(shape.Pen, point.X, point.Y, width, height);
                 }
             }
         }
@@ -75,15 +86,15 @@ namespace LimitlessDrawEngine
                     line.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
                     this.shapesList.Add(line);
                     break;
-                case ShapeType.Circle:
-                    /*Circle circle = new Circle(pointA, pointB);
-                    circle.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
-                    this.shapesList.Add(circle);*/
-                    break;
                 case ShapeType.RectAngle:
-                    /*Line line = new Line(pointA, pointB);
-                    line.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
-                    this.shapesList.Add(line);*/
+                    Rectangle rectangle = new Rectangle(pointA, pointB);
+                    rectangle.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
+                    this.shapesList.Add(rectangle);
+                    break;
+                case ShapeType.Circle:
+                    Circle circle = new Circle(pointA, pointB);
+                    circle.Pen = new Pen(this.Pen.Brush, this.Pen.Width);
+                    this.shapesList.Add(circle);
                     break;
             }
 
@@ -130,6 +141,21 @@ namespace LimitlessDrawEngine
             }
 
             return result;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Type = ShapeType.Line;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            this.Type = ShapeType.RectAngle;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            this.Type = ShapeType.Circle;
         }
     }
 }

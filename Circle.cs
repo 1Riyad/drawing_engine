@@ -9,9 +9,15 @@ namespace LimitlessDrawEngine
 {
     public class Circle : Shape
     {
+        public Circle(Point pointA, Point pointB)
+        {
+            this.pointA = pointA;
+            this.pointB = pointB;
+        }
+
         public override void Draw(Graphics graphic)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
