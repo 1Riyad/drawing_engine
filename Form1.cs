@@ -46,24 +46,34 @@ namespace LimitlessDrawEngine
                 }
                 else if (shape.GetType() == typeof(Rectangle))
                 {
-                    int xDistance = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
-                    int yDistance = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
-                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X) + (xDistance / 2), Math.Min(shape.pointA.Y, shape.pointB.Y) + (yDistance / 2));
+                    int[] distance = getDistance(shape);
+                    int xDistance = distance[0];
+                    int yDistance = distance[1];
+                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X), Math.Min(shape.pointA.Y, shape.pointB.Y));
                     int width = xDistance;
                     int height = yDistance;
                     graphic.DrawRectangle(shape.Pen, point.X, point.Y, width, height);
                 }
                 else if (shape.GetType() == typeof(Circle))
                 {
-                    int xDistance = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
-                    int yDistance = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
-                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X) + (xDistance / 2), Math.Min(shape.pointA.Y, shape.pointB.Y) + (yDistance / 2));
+                    int[] distance = getDistance(shape);
+                    int xDistance = distance[0];
+                    int yDistance = distance[1];
+                    Point point = new Point(Math.Min(shape.pointA.X, shape.pointB.X), Math.Min(shape.pointA.Y, shape.pointB.Y));
                     int width = xDistance;
                     int height = yDistance;
 
                     graphic.DrawEllipse(shape.Pen, point.X, point.Y, width, height);
                 }
             }
+        }
+
+        private int[] getDistance(Shape shape)
+        {
+            int[] result = new int[2];
+            result[0] = Math.Max(shape.pointA.X, shape.pointB.X) - Math.Min(shape.pointA.X, shape.pointB.X);
+            result[1] = Math.Max(shape.pointA.Y, shape.pointB.Y) - Math.Min(shape.pointA.Y, shape.pointB.Y);
+            return result;
         }
 
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
