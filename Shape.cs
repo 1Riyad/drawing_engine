@@ -35,9 +35,9 @@ namespace LimitlessDrawEngine
         {
             var contains = false;
 
-            using (var gp = new System.Drawing.Drawing2D.GraphicsPath())
+            using (var gp = new GraphicsPath())
             {
-                gp.AddEllipse(Selection);
+                gp.AddRectangle(Selection);
                 contains = gp.IsVisible(point);
             }
 
