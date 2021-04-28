@@ -97,6 +97,7 @@ namespace LimitlessDrawEngine
             this.selectShape.Size = new System.Drawing.Size(18, 17);
             this.selectShape.TabIndex = 10;
             this.selectShape.UseVisualStyleBackColor = true;
+            this.selectShape.CheckedChanged += new System.EventHandler(this.selectShape_CheckedChanged);
             // 
             // label2
             // 
@@ -186,6 +187,7 @@ namespace LimitlessDrawEngine
             this.drawingCanvas.Size = new System.Drawing.Size(858, 611);
             this.drawingCanvas.TabIndex = 1;
             this.drawingCanvas.Paint += new System.Windows.Forms.PaintEventHandler(this.drawingCanvas_Paint);
+            this.drawingCanvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.drawingCanvas_MouseClick);
             this.drawingCanvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.drawingCanvas_MouseDown);
             this.drawingCanvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.drawingCanvas_MouseUp);
             // 

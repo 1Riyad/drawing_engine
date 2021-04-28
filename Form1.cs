@@ -99,5 +99,16 @@ namespace LimitlessDrawEngine
 
             return DashStyle.Solid;
         }
+
+        private void selectShape_CheckedChanged(object sender, EventArgs e)
+        {
+            this.canvas.mode = this.selectShape.Checked ? CursorMode.Selection : CursorMode.Drawing;
+        }
+
+        private void drawingCanvas_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(this.canvas.mode == CursorMode.Selection)
+                this.canvas.toggleSelection(new Point(e.X, e.Y));
+        }
     }
 }

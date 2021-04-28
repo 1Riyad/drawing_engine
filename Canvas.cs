@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace LimitlessDrawEngine
 
         public Point pointA = new Point(0, 0);
         public Point pointB = new Point(0, 0);
+        public CursorMode mode { get; set; }
 
         public Canvas()
         {
@@ -68,6 +70,35 @@ namespace LimitlessDrawEngine
             foreach(var shape in Shapes)
             {
                 shape.Draw(graphic);
+
+                if (shape.isSelected)
+                    shape.DrawSelection(graphic);
+            }
+        }
+
+        public void toggleSelection(Point point)
+        {
+            Shape target = null;
+
+            foreach (var shape in Shapes)
+                if (shape.Contains(point))
+                    target = shape;
+
+            if(target != null)
+            {
+                target.isSelected = !target.isSelected;
+
+                if (target.isSelected)
+                {
+                    if(this.SelectedShape != null)
+                        this.SelectedShape.isSelected = false;
+
+                    this.SelectedShape = target;
+                }
+                else
+                {
+                    this.SelectedShape = null;
+                }
             }
         }
     }
