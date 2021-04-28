@@ -18,8 +18,8 @@ namespace LimitlessDrawEngine
         public Form1()
         {
             canvas = new Canvas();
-
             InitializeComponent();
+            this.comboBox3.SelectedIndex = 0;
         }
 
         private void drawingCanvas_Paint(object sender, PaintEventArgs e)
@@ -30,17 +30,22 @@ namespace LimitlessDrawEngine
 
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
+            this.canvas.IsMouseDown = true;
             this.canvas.pointA.X = e.X;
             this.canvas.pointA.Y = e.Y;
         }
 
+
+
         private void drawingCanvas_MouseUp(object sender, MouseEventArgs e)
         {
+            this.canvas.IsMouseDown = false;
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
-            this.canvas.Pen.DashStyle = this.getDashStyle();
+            this.canvas.Pen.DashStyle = (DashStyle) this.comboBox3.SelectedIndex;
 
-            this.canvas.addShape();
+            if(!this.selectShape.Checked)
+                this.canvas.addShape();
 
             this.drawingCanvas.Invalidate();
         }
@@ -59,6 +64,7 @@ namespace LimitlessDrawEngine
         {
             this.canvas.Type = ShapeType.Line;
         }
+
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
@@ -81,34 +87,20 @@ namespace LimitlessDrawEngine
             }
         }
 
-        private DashStyle getDashStyle()
-        {
-            switch (this.comboBox3.SelectedIndex)
-            {
-                case 0:
-                    return DashStyle.Solid;
-                case 1:
-                    return DashStyle.Dot;
-                case 2:
-                    return DashStyle.Dash;
-                case 3:
-                    return DashStyle.DashDot;
-                case 4:
-                    return DashStyle.DashDotDot;
-            }
-
-            return DashStyle.Solid;
-        }
-
         private void selectShape_CheckedChanged(object sender, EventArgs e)
         {
-            this.canvas.mode = this.selectShape.Checked ? CursorMode.Selection : CursorMode.Drawing;
+            this.canvas.Mode = this.selectShape.Checked ? CursorMode.Selection : CursorMode.Drawing;
         }
 
         private void drawingCanvas_MouseClick(object sender, MouseEventArgs e)
         {
-            if(this.canvas.mode == CursorMode.Selection)
+            if(this.canvas.Mode == CursorMode.Selection)
                 this.canvas.toggleSelection(new Point(e.X, e.Y));
+        }
+
+        private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.canvas.MouseMove(new Point(e.X, e.Y));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LimitlessDrawEngine
 
         public override void Draw(Graphics graphic)
         {
-            graphic.DrawLine(this.Pen, pointA, pointB);
+            graphic.DrawLine(this.Pen, PointA, PointB);
         }
     }
 }

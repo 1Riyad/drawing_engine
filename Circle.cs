@@ -27,9 +27,9 @@ namespace LimitlessDrawEngine
         {
             base.update();
 
-            int xDistance = Math.Max(this.pointA.X, this.pointB.X) - Math.Min(this.pointA.X, this.pointB.X);
-            int yDistance = Math.Max(this.pointA.Y, this.pointB.Y) - Math.Min(this.pointA.Y, this.pointB.Y);
-            this.TopLeftCorner = new Point(Math.Min(this.pointA.X, this.pointB.X), Math.Min(this.pointA.Y, this.pointB.Y));
+            int xDistance = Math.Max(this.PointA.X, this.PointB.X) - Math.Min(this.PointA.X, this.PointB.X);
+            int yDistance = Math.Max(this.PointA.Y, this.PointB.Y) - Math.Min(this.PointA.Y, this.PointB.Y);
+            this.TopLeftCorner = new Point(Math.Min(this.PointA.X, this.PointB.X), Math.Min(this.PointA.Y, this.PointB.Y));
             this.Width = xDistance;
             this.Height = yDistance;
         }

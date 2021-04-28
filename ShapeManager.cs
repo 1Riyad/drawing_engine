@@ -51,11 +51,11 @@ namespace LimitlessDrawEngine
                         writer.Write("circle");
                     }
 
-                    writer.Write(shape.pointA.X);
-                    writer.Write(shape.pointA.Y);
+                    writer.Write(shape.PointA.X);
+                    writer.Write(shape.PointA.Y);
 
-                    writer.Write(shape.pointB.X);
-                    writer.Write(shape.pointB.Y);
+                    writer.Write(shape.PointB.X);
+                    writer.Write(shape.PointB.Y);
 
                     writer.Write(shape.Pen.Color.Name);
                     writer.Write((int)shape.Pen.DashStyle);

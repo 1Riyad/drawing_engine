@@ -16,7 +16,9 @@ namespace LimitlessDrawEngine
 
         public Point pointA = new Point(0, 0);
         public Point pointB = new Point(0, 0);
-        public CursorMode mode { get; set; }
+
+        public bool IsMouseDown { get; set; }
+        public CursorMode Mode { get; set; }
 
         public Canvas()
         {
@@ -99,6 +101,16 @@ namespace LimitlessDrawEngine
                 {
                     this.SelectedShape = null;
                 }
+            }
+        }
+
+        public void MouseMove(Point point)
+        {
+            if(this.IsMouseDown && this.SelectedShape != null && this.SelectedShape.Contains(point))
+            {
+                int x = point.X > this.SelectedShape.Center.X ? 1 : -1;
+                int y = point.Y > this.SelectedShape.Center.Y ? 1 : -1;
+                this.SelectedShape.move(x, y);
             }
         }
     }

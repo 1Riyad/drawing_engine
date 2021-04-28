@@ -7,8 +7,9 @@ namespace LimitlessDrawEngine
     public abstract class Shape
     {
         public Pen Pen { get; set; }
-        public Point pointA { get; set; }
-        public Point pointB { get; set; }
+        public Point PointA { get; set; }
+        public Point PointB { get; set; }
+        public Point Center { get; set; }
         public Color Color { get; set; }
         public bool isSelected { get; set; }
         public System.Drawing.Rectangle Selection { get; set; }
@@ -16,8 +17,8 @@ namespace LimitlessDrawEngine
         public Shape(Pen pen, Point pointA, Point pointB)
         {
             this.Pen = pen;
-            this.pointA = pointA;
-            this.pointB = pointB;
+            this.PointA = pointA;
+            this.PointB = pointB;
 
             this.update();
         }
@@ -47,42 +48,46 @@ namespace LimitlessDrawEngine
         public virtual void update()
         {
             int outline = 5;
-            int width = Math.Max(this.pointA.X, this.pointB.X) - Math.Min(this.pointA.X, this.pointB.X);
-            int height = Math.Max(this.pointA.Y, this.pointB.Y) - Math.Min(this.pointA.Y, this.pointB.Y);
-            Point topLeftCornet = new Point(Math.Min(this.pointA.X, this.pointB.X) - outline, Math.Min(this.pointA.Y, this.pointB.Y) - outline);
+            int width = Math.Max(this.PointA.X, this.PointB.X) - Math.Min(this.PointA.X, this.PointB.X);
+            int height = Math.Max(this.PointA.Y, this.PointB.Y) - Math.Min(this.PointA.Y, this.PointB.Y);
+            Point topLeftCornet = new Point(Math.Min(this.PointA.X, this.PointB.X) - outline, Math.Min(this.PointA.Y, this.PointB.Y) - outline);
             this.Selection = new System.Drawing.Rectangle(topLeftCornet, new Size(width + (outline * 2), height + (outline * 2)));
+
+            this.Center = new Point(Math.Min(this.PointA.X, this.PointB.X), Math.Min(this.PointA.Y, this.PointB.Y));
         }
 
         public void move(int x, int y)
         {
-            this.pointA = new Point(this.pointA.X + x, this.pointA.Y + y);
-            this.pointB = new Point(this.pointB.X + x, this.pointB.Y + y);
+            this.PointA = new Point(this.PointA.X + x, this.PointA.Y + y);
+            this.PointB = new Point(this.PointB.X + x, this.PointB.Y + y);
+
+            update();
         }
 
         public void resize(float scale)
         {
             scale /= 2;
 
-            if(this.pointA.X > this.pointB.X)
+            if(this.PointA.X > this.PointB.X)
             {
-                this.pointA = new Point(this.pointA.X + (int)(this.pointA.X * scale), this.pointA.Y);
-                this.pointB = new Point(this.pointB.X - (int)(this.pointA.X * scale), this.pointB.Y);
+                this.PointA = new Point(this.PointA.X + (int)(this.PointA.X * scale), this.PointA.Y);
+                this.PointB = new Point(this.PointB.X - (int)(this.PointA.X * scale), this.PointB.Y);
             }
             else
             {
-                this.pointA = new Point(this.pointA.X - (int)(this.pointA.X * scale), this.pointA.Y);
-                this.pointB = new Point(this.pointB.X + (int)(this.pointA.X * scale), this.pointB.Y);
+                this.PointA = new Point(this.PointA.X - (int)(this.PointA.X * scale), this.PointA.Y);
+                this.PointB = new Point(this.PointB.X + (int)(this.PointA.X * scale), this.PointB.Y);
             }
 
-            if (this.pointA.Y > this.pointB.Y)
+            if (this.PointA.Y > this.PointB.Y)
             {
-                this.pointA = new Point(this.pointA.X, this.pointA.Y + (int)(this.pointA.Y * scale));
-                this.pointB = new Point(this.pointB.X, this.pointB.Y - (int)(this.pointA.Y * scale));
+                this.PointA = new Point(this.PointA.X, this.PointA.Y + (int)(this.PointA.Y * scale));
+                this.PointB = new Point(this.PointB.X, this.PointB.Y - (int)(this.PointA.Y * scale));
             }
             else
             {
-                this.pointA = new Point(this.pointA.X, this.pointA.Y - (int)(this.pointA.Y * scale));
-                this.pointB = new Point(this.pointB.X, this.pointB.Y + (int)(this.pointA.Y * scale));
+                this.PointA = new Point(this.PointA.X, this.PointA.Y - (int)(this.PointA.Y * scale));
+                this.PointB = new Point(this.PointB.X, this.PointB.Y + (int)(this.PointA.Y * scale));
             }
 
             update();
