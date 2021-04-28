@@ -17,6 +17,8 @@ namespace LimitlessDrawEngine
         public Point pointA = new Point(0, 0);
         public Point pointB = new Point(0, 0);
 
+        public Point DeltaCenter { get; set; }
+
         public bool IsMouseDown { get; set; }
         public CursorMode Mode { get; set; }
 
@@ -40,6 +42,18 @@ namespace LimitlessDrawEngine
                 case ShapeType.Circle:
                     this.addCircle();
                     break;
+            }
+        }
+
+        public void MouseDown(Point point)
+        {
+            this.IsMouseDown = true;
+            this.pointA.X = point.X;
+            this.pointA.Y = point.Y;
+
+            if (this.SelectedShape != null)
+            {
+                this.DeltaCenter = new Point(point.X - this.SelectedShape.Center.X, point.Y - this.SelectedShape.Center.Y);
             }
         }
 
@@ -83,8 +97,15 @@ namespace LimitlessDrawEngine
             Shape target = null;
 
             foreach (var shape in Shapes)
+            {
                 if (shape.Contains(point))
+                {
+                    if (shape.isSelected)
+                        return;
+
                     target = shape;
+                }
+            }
 
             if(target != null)
             {
@@ -102,14 +123,26 @@ namespace LimitlessDrawEngine
                     this.SelectedShape = null;
                 }
             }
+            else if(this.SelectedShape != null)
+            {
+                this.SelectedShape.isSelected = false;
+                this.SelectedShape = null;
+            }
         }
 
         public void MouseMove(Point point)
         {
             if(this.IsMouseDown && this.SelectedShape != null && this.SelectedShape.Contains(point))
             {
-                int x = point.X > this.SelectedShape.Center.X ? 1 : -1;
-                int y = point.Y > this.SelectedShape.Center.Y ? 1 : -1;
+                int cordx = point.X - this.SelectedShape.PointA.X;
+                int cordy = point.Y - this.SelectedShape.PointA.Y;
+
+                int cendx = point.X - this.SelectedShape.Center.X;
+                int cendy = point.Y - this.SelectedShape.Center.Y;
+
+                int x = cordx - this.DeltaCenter.X;
+                int y = cordy - this.DeltaCenter.Y;
+
                 this.SelectedShape.move(x, y);
             }
         }

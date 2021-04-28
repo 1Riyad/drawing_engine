@@ -30,9 +30,8 @@ namespace LimitlessDrawEngine
 
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
-            this.canvas.IsMouseDown = true;
-            this.canvas.pointA.X = e.X;
-            this.canvas.pointA.Y = e.Y;
+            this.canvas.MouseDown(new Point(e.X, e.Y));
+            this.drawingCanvas.Invalidate();
         }
 
 
