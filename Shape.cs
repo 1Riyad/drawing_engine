@@ -46,10 +46,11 @@ namespace LimitlessDrawEngine
 
         public virtual void update()
         {
+            int outline = 5;
             int width = Math.Max(this.pointA.X, this.pointB.X) - Math.Min(this.pointA.X, this.pointB.X);
             int height = Math.Max(this.pointA.Y, this.pointB.Y) - Math.Min(this.pointA.Y, this.pointB.Y);
-            Point topLeftCornet = new Point(Math.Min(this.pointA.X, this.pointB.X), Math.Min(this.pointA.Y, this.pointB.Y));
-            this.Selection = new System.Drawing.Rectangle(topLeftCornet, new Size(width, height));
+            Point topLeftCornet = new Point(Math.Min(this.pointA.X, this.pointB.X) - outline, Math.Min(this.pointA.Y, this.pointB.Y) - outline);
+            this.Selection = new System.Drawing.Rectangle(topLeftCornet, new Size(width + (outline * 2), height + (outline * 2)));
         }
 
         public void move(int x, int y)
