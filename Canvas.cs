@@ -134,14 +134,11 @@ namespace LimitlessDrawEngine
         {
             if(this.IsMouseDown && this.SelectedShape != null && this.SelectedShape.Contains(point))
             {
-                int cordx = point.X - this.SelectedShape.PointA.X;
-                int cordy = point.Y - this.SelectedShape.PointA.Y;
-
                 int cendx = point.X - this.SelectedShape.Center.X;
                 int cendy = point.Y - this.SelectedShape.Center.Y;
 
-                int x = cordx - this.DeltaCenter.X;
-                int y = cordy - this.DeltaCenter.Y;
+                int x = cendx - this.DeltaCenter.X;
+                int y = cendy - this.DeltaCenter.Y;
 
                 this.SelectedShape.move(x, y);
             }

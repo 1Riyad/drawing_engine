@@ -149,7 +149,7 @@ namespace LimitlessDrawEngine
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
+            this.panel3.BackColor = System.Drawing.Color.Black;
             this.panel3.Location = new System.Drawing.Point(152, 27);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(29, 28);

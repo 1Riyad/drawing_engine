@@ -83,6 +83,12 @@ namespace LimitlessDrawEngine
             {
                 this.panel3.BackColor = colorPicker.Color;
                 this.canvas.Pen.Color = colorPicker.Color;
+                
+                if(this.canvas.SelectedShape != null)
+                {
+                    this.canvas.SelectedShape.Pen.Color = colorPicker.Color;
+                    this.drawingCanvas.Invalidate();
+                }
             }
         }
 
