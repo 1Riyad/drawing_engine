@@ -52,6 +52,12 @@ namespace LimitlessDrawEngine
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             this.canvas.Pen.Width = (float) this.numericUpDown1.Value;
+
+            if(this.canvas.SelectedShape != null)
+            {
+                this.canvas.SelectedShape.Pen.Width = (float)this.numericUpDown1.Value;
+                this.drawingCanvas.Invalidate();
+            }
         }
 
         private void panel3_MouseClick(object sender, MouseEventArgs e)
@@ -106,6 +112,15 @@ namespace LimitlessDrawEngine
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             this.canvas.MouseMove(new Point(e.X, e.Y));
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.canvas.SelectedShape != null)
+            {
+                this.canvas.SelectedShape.Pen.DashStyle = (DashStyle)this.comboBox3.SelectedIndex;
+                this.drawingCanvas.Invalidate();
+            }
         }
     }
 }
