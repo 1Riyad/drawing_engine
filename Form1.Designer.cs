@@ -200,6 +200,7 @@ namespace LimitlessDrawEngine
             this.ClientSize = new System.Drawing.Size(882, 725);
             this.Controls.Add(this.drawingCanvas);
             this.Controls.Add(this.panel1);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Limitless Draw Engine 2000";
             this.panel1.ResumeLayout(false);

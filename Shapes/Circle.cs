@@ -7,20 +7,18 @@ using System.Threading.Tasks;
 
 namespace LimitlessDrawEngine
 {
-    public class Rectangle : Shape
+    public class Circle : Shape
     {
         public Point TopLeftCorner { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
 
-        public Rectangle(Pen pen, Point pointA, Point pointB) : base(pen, pointA, pointB)
+        public Circle(Pen pen, Point pointA, Point pointB) : base(pen, pointA, pointB)
         {
             this.update();
         }
 
         public override void Draw(Graphics graphic)
         {
-            graphic.DrawRectangle(this.Pen, TopLeftCorner.X, TopLeftCorner.Y, Width, Height);
+            graphic.DrawEllipse(this.Pen, this.TopLeftCorner.X, this.TopLeftCorner.Y, this.Width, this.Height);
         }
 
         public override void update()

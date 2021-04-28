@@ -13,7 +13,9 @@ namespace LimitlessDrawEngine
         public Color Color { get; set; }
         public bool isSelected { get; set; }
         public System.Drawing.Rectangle Selection { get; set; }
-        
+        public int Width { get; set; }
+        public int Height { get; set; }
+
         public Shape(Pen pen, Point pointA, Point pointB)
         {
             this.Pen = pen;
@@ -50,6 +52,10 @@ namespace LimitlessDrawEngine
             int outline = 5;
             int width = Math.Max(this.PointA.X, this.PointB.X) - Math.Min(this.PointA.X, this.PointB.X);
             int height = Math.Max(this.PointA.Y, this.PointB.Y) - Math.Min(this.PointA.Y, this.PointB.Y);
+            
+            this.Width = width;
+            this.Height = height;
+
             Point topLeftCornet = new Point(Math.Min(this.PointA.X, this.PointB.X) - outline, Math.Min(this.PointA.Y, this.PointB.Y) - outline);
             this.Selection = new System.Drawing.Rectangle(topLeftCornet, new Size(width + (outline * 2), height + (outline * 2)));
 
@@ -64,33 +70,57 @@ namespace LimitlessDrawEngine
             update();
         }
 
-        public void resize(float scale)
+        public void resize(Direction direction, int value)
         {
-            scale /= 2;
-
-            if(this.PointA.X > this.PointB.X)
+            switch(direction)
             {
-                this.PointA = new Point(this.PointA.X + (int)(this.PointA.X * scale), this.PointA.Y);
-                this.PointB = new Point(this.PointB.X - (int)(this.PointA.X * scale), this.PointB.Y);
-            }
-            else
-            {
-                this.PointA = new Point(this.PointA.X - (int)(this.PointA.X * scale), this.PointA.Y);
-                this.PointB = new Point(this.PointB.X + (int)(this.PointA.X * scale), this.PointB.Y);
-            }
-
-            if (this.PointA.Y > this.PointB.Y)
-            {
-                this.PointA = new Point(this.PointA.X, this.PointA.Y + (int)(this.PointA.Y * scale));
-                this.PointB = new Point(this.PointB.X, this.PointB.Y - (int)(this.PointA.Y * scale));
-            }
-            else
-            {
-                this.PointA = new Point(this.PointA.X, this.PointA.Y - (int)(this.PointA.Y * scale));
-                this.PointB = new Point(this.PointB.X, this.PointB.Y + (int)(this.PointA.Y * scale));
+                case Direction.UP:
+                    moveUp(value);
+                    break;
+                case Direction.DOWN:
+                    moveDown(value);
+                    break;
+                case Direction.LEFT:
+                    moveLeft(value);
+                    break;
+                case Direction.RIGHT:
+                    moveRight(value);
+                    break;
             }
 
             update();
+        }
+
+        public void moveUp(int value)
+        {
+            if (this.PointA.Y < this.PointB.Y)
+                this.PointA = new Point(this.PointA.X, this.PointA.Y - value);
+            else
+                this.PointB = new Point(this.PointB.X, this.PointB.Y - value);
+        }
+
+        public void moveDown(int value)
+        {
+            if (this.PointA.Y > this.PointB.Y)
+                this.PointA = new Point(this.PointA.X, this.PointA.Y + value);
+            else
+                this.PointB = new Point(this.PointB.X, this.PointB.Y + value);
+        }
+
+        public void moveLeft(int value)
+        {
+            if (this.PointA.X < this.PointB.X)
+                this.PointA = new Point(this.PointA.X - value, this.PointA.Y);
+            else
+                this.PointB = new Point(this.PointB.X - value, this.PointB.Y - value);
+        }
+
+        public void moveRight(int value)
+        {
+            if (this.PointA.X > this.PointB.X)
+                this.PointA = new Point(this.PointA.X + value, this.PointA.Y);
+            else
+                this.PointB = new Point(this.PointB.X + value, this.PointB.Y - value);
         }
     }
 }

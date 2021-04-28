@@ -16,9 +16,10 @@ namespace LimitlessDrawEngine
 
         public Point pointA = new Point(0, 0);
         public Point pointB = new Point(0, 0);
-
         public Point DeltaCenter { get; set; }
 
+        public bool ResizeMode { get; set; }
+        public Direction direction { get; set; }
         public bool IsMouseDown { get; set; }
         public CursorMode Mode { get; set; }
 
@@ -53,7 +54,40 @@ namespace LimitlessDrawEngine
 
             if (this.SelectedShape != null)
             {
-                this.DeltaCenter = new Point(point.X - this.SelectedShape.Center.X, point.Y - this.SelectedShape.Center.Y);
+                int x = point.X - this.SelectedShape.Center.X;
+                int y = point.Y - this.SelectedShape.Center.Y;
+
+                this.DeltaCenter = new Point(x, y);
+
+                int xDistance = Math.Max(x, this.SelectedShape.Center.X) - Math.Min(x, this.SelectedShape.Center.X);
+                int yDistance = Math.Max(y, this.SelectedShape.Center.Y) - Math.Min(y, this.SelectedShape.Center.Y);
+
+                if (xDistance !> ((this.SelectedShape.Width / 2) * 0.6) &&
+                    yDistance !> ((this.SelectedShape.Height / 2) * 0.6))
+                    return;
+
+                if (xDistance > yDistance)
+                {
+                    if(xDistance > (this.SelectedShape.Width / 2))
+                    {
+                        direction = Direction.RIGHT;
+                    }
+                    else
+                    {
+                        direction = Direction.LEFT;
+                    }
+                }
+                else
+                {
+                    if (yDistance > (this.SelectedShape.Height / 2))
+                    {
+                        direction = Direction.DOWN;
+                    }
+                    else
+                    {
+                        direction = Direction.UP;
+                    }
+                }
             }
         }
 
@@ -130,7 +164,7 @@ namespace LimitlessDrawEngine
             }
         }
 
-        public void MouseMove(Point point)
+        public bool MouseMove(Point point)
         {
             if(this.IsMouseDown && this.SelectedShape != null && this.SelectedShape.Contains(point))
             {
@@ -140,8 +174,18 @@ namespace LimitlessDrawEngine
                 int x = cendx - this.DeltaCenter.X;
                 int y = cendy - this.DeltaCenter.Y;
 
-                this.SelectedShape.move(x, y);
+                if (!this.ResizeMode)
+                {
+                    this.SelectedShape.move(x, y);
+                }
+                else
+                {
+                    this.SelectedShape.resize(this.direction, (x + y) / 2);
+                }
+                return true;
             }
+
+            return false;
         }
     }
 }

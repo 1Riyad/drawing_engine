@@ -31,7 +31,14 @@ namespace LimitlessDrawEngine
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
             this.canvas.MouseDown(new Point(e.X, e.Y));
-            this.drawingCanvas.Invalidate();
+
+            if(this.canvas.SelectedShape != null)
+            {
+                this.numericUpDown1.Value = (decimal) this.canvas.SelectedShape.Pen.Width;
+                this.panel3.BackColor = this.canvas.SelectedShape.Color;
+                this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
+            }
+            // this.drawingCanvas.Invalidate();
         }
 
 
@@ -100,7 +107,22 @@ namespace LimitlessDrawEngine
 
         private void selectShape_CheckedChanged(object sender, EventArgs e)
         {
-            this.canvas.Mode = this.selectShape.Checked ? CursorMode.Selection : CursorMode.Drawing;
+            if(this.selectShape.Checked)
+            {
+                this.canvas.Mode = CursorMode.Selection;
+                return;
+            }
+
+            if(this.canvas.SelectedShape != null)
+            {
+                this.canvas.SelectedShape.isSelected = false;
+                this.canvas.SelectedShape = null;
+                this.canvas.Mode = CursorMode.Drawing;
+                this.drawingCanvas.Invalidate();
+                return;
+            }
+
+            this.canvas.Mode = CursorMode.Drawing;
         }
 
         private void drawingCanvas_MouseClick(object sender, MouseEventArgs e)
@@ -111,7 +133,10 @@ namespace LimitlessDrawEngine
 
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            this.canvas.MouseMove(new Point(e.X, e.Y));
+            if(this.canvas.MouseMove(new Point(e.X, e.Y)))
+            {
+                this.drawingCanvas.Invalidate();
+            }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)

@@ -13,12 +13,13 @@ namespace LimitlessDrawEngine
     {
         private static readonly byte[] Magic_Number = { 200, 30, 6 };
         private static readonly byte[] Version = { 0, 1, 0 };
+        private static readonly string ext = ".limitless";
 
         // close your eyes before running
         // this is untested code
         public static void save(List<Shape> shapes, string filePath)
         {
-            filePath = filePath + ".limitless";
+            filePath = filePath + ext;
             FileMode mode = FileMode.Create;
 
             if (File.Exists(filePath))
@@ -68,7 +69,7 @@ namespace LimitlessDrawEngine
 
         public static List<Shape> load(string filePath)
         {
-            filePath = filePath + ".limitless";
+            filePath = filePath + ext;
             List<Shape> shapes = new();
 
             if (File.Exists(filePath))
@@ -106,22 +107,27 @@ namespace LimitlessDrawEngine
                     for(int i = 0; i < count; i++)
                     {
                         string type = reader.ReadString();
+                        Point pointA = new Point(reader.ReadInt32(), reader.ReadInt32());
+                        Point pointB = new Point(reader.ReadInt32(), reader.ReadInt32());
+                        Pen pen = new Pen(Color.FromName(reader.ReadString()), reader.ReadSingle());
+
+                        Shape shape = null;
 
                         switch(type)
                         {
                             case "line":
-                                Line line = loadLine(reader);
-                                shapes.Add(line);
+                                shape = new Line(pen, pointA, pointB);
                                 break;
                             case "rectangle":
-                                Rectangle rectangle = loadRectangle(reader);
-                                shapes.Add(rectangle);
+                                shape = new Rectangle(pen, pointA, pointB);
                                 break;
                             case "circle":
-                                Circle circle = loadCircle(reader);
-                                shapes.Add(circle);
+                                shape = new Circle(pen, pointA, pointB);
                                 break;
                         }
+
+                        if (shape != null)
+                            shapes.Add(shape);
                     }
 
                     reader.Close();
@@ -129,33 +135,6 @@ namespace LimitlessDrawEngine
             }
 
             return shapes;
-        }
-
-        private static Line loadLine(BinaryReader reader)
-        {
-            Point pointA = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Point pointB = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Pen pen = new Pen(Color.FromName(reader.ReadString()), reader.ReadSingle());
-
-            return new Line(pen, pointA, pointB);
-        }
-
-        private static Rectangle loadRectangle(BinaryReader reader)
-        {
-            Point pointA = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Point pointB = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Pen pen = new Pen(Color.FromName(reader.ReadString()), reader.ReadSingle());
-
-            return new Rectangle(pen, pointA, pointB);
-        }
-
-        private static Circle loadCircle(BinaryReader reader)
-        {
-            Point pointA = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Point pointB = new Point(reader.ReadInt32(), reader.ReadInt32());
-            Pen pen = new Pen(Color.FromName(reader.ReadString()), reader.ReadSingle());
-
-            return new Circle(pen, pointA, pointB);
         }
     }
 }
