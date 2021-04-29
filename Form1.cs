@@ -14,6 +14,10 @@ namespace LimitlessDrawEngine
     public partial class Form1 : Form
     {
         private Canvas canvas;
+        bool isDrawing;
+        Shape preview;
+        Point startPoint;
+
 
         public Form1()
         {
@@ -26,19 +30,53 @@ namespace LimitlessDrawEngine
         {
             Graphics graphic = e.Graphics;
             canvas.draw(graphic);
+            if (preview != null)
+            {
+                preview.Draw(graphic);
+            }
         }
 
         private void drawingCanvas_MouseDown(object sender, MouseEventArgs e)
         {
+            startPoint = new Point(e.X,e.Y);
             this.canvas.MouseDown(new Point(e.X, e.Y));
 
-            if(this.canvas.SelectedShape != null)
+            if (this.canvas.SelectedShape != null)
             {
-                this.numericUpDown1.Value = (decimal) this.canvas.SelectedShape.Pen.Width;
+
+                this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
                 this.panel3.BackColor = this.canvas.SelectedShape.Color;
                 this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
+
             }
-            // this.drawingCanvas.Invalidate();
+            else if (this.canvas.Mode != CursorMode.Selection)
+            {
+                isDrawing = true;
+                this.canvas.Pen.Color = this.panel3.BackColor;
+                Point pointA = new Point(e.X, e.Y);
+                Point pointB = new Point(e.X, e.Y);
+                Pen pen; 
+/*                switch (this.canvas.Type)
+                {
+                    case ShapeType.Line:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Line(pen, pointA, pointB);
+                        break;
+                    case ShapeType.RectAngle:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Rectangle(pen, pointA, pointB);
+                        break;
+                    case ShapeType.Circle:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Circle(pen, pointA, pointB);
+                        break;
+                }*/
+            }
+
+            this.drawingCanvas.Invalidate();
         }
 
 
@@ -46,11 +84,14 @@ namespace LimitlessDrawEngine
         private void drawingCanvas_MouseUp(object sender, MouseEventArgs e)
         {
             this.canvas.IsMouseDown = false;
+            isDrawing = false;
+
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
             this.canvas.Pen.DashStyle = (DashStyle) this.comboBox3.SelectedIndex;
+  
 
-            if(!this.selectShape.Checked)
+            if (!this.selectShape.Checked)
                 this.canvas.addShape();
 
             this.drawingCanvas.Invalidate();
@@ -133,8 +174,31 @@ namespace LimitlessDrawEngine
 
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if(this.canvas.MouseMove(new Point(e.X, e.Y)))
+            if (isDrawing)
             {
+                Point pointA = startPoint;
+                Point pointB = new Point(e.X, e.Y);
+                Pen pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                pen.DashStyle = this.canvas.Pen.DashStyle;
+                switch (this.canvas.Type)
+                {
+                    case ShapeType.Line:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Line(pen, pointA, pointB);
+                        break;
+                    case ShapeType.RectAngle:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Rectangle(pen, pointA, pointB);
+                        break;
+                    case ShapeType.Circle:
+                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
+                        pen.DashStyle = this.canvas.Pen.DashStyle;
+                        preview = new Circle(pen, pointA, pointB);
+                        break;
+                }
+               // preview.Draw(this.CreateGraphics);//= new Shape(pen, pointA, pointB);
                 this.drawingCanvas.Invalidate();
             }
         }
