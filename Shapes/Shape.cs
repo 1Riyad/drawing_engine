@@ -59,7 +59,7 @@ namespace LimitlessDrawEngine
             Point topLeftCornet = new Point(Math.Min(this.PointA.X, this.PointB.X) - outline, Math.Min(this.PointA.Y, this.PointB.Y) - outline);
             this.Selection = new System.Drawing.Rectangle(topLeftCornet, new Size(width + (outline * 2), height + (outline * 2)));
 
-            this.Center = new Point(Math.Min(this.PointA.X, this.PointB.X), Math.Min(this.PointA.Y, this.PointB.Y));
+            this.Center = new Point(Math.Min(this.PointA.X, this.PointB.X) + (width / 2), Math.Min(this.PointA.Y, this.PointB.Y) + (height / 2));
         }
 
         public void move(int x, int y)

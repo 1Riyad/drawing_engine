@@ -17,8 +17,7 @@ namespace LimitlessDrawEngine
         bool isDrawing;
         Shape preview;
         Point startPoint;
-
-
+        
         public Form1()
         {
             canvas = new Canvas();
