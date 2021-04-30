@@ -30,6 +30,7 @@ namespace LimitlessDrawEngine
         {
             Graphics graphic = e.Graphics;
             canvas.draw(graphic);
+            
             if (preview != null)
             {
                 preview.Draw(graphic);
@@ -56,24 +57,6 @@ namespace LimitlessDrawEngine
                 Point pointA = new Point(e.X, e.Y);
                 Point pointB = new Point(e.X, e.Y);
                 Pen pen; 
-/*                switch (this.canvas.Type)
-                {
-                    case ShapeType.Line:
-                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
-                        pen.DashStyle = this.canvas.Pen.DashStyle;
-                        preview = new Line(pen, pointA, pointB);
-                        break;
-                    case ShapeType.RectAngle:
-                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
-                        pen.DashStyle = this.canvas.Pen.DashStyle;
-                        preview = new Rectangle(pen, pointA, pointB);
-                        break;
-                    case ShapeType.Circle:
-                        pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
-                        pen.DashStyle = this.canvas.Pen.DashStyle;
-                        preview = new Circle(pen, pointA, pointB);
-                        break;
-                }*/
             }
 
             this.drawingCanvas.Invalidate();
@@ -85,6 +68,7 @@ namespace LimitlessDrawEngine
         {
             this.canvas.IsMouseDown = false;
             isDrawing = false;
+            preview = null;
 
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
@@ -93,7 +77,7 @@ namespace LimitlessDrawEngine
 
             if (!this.selectShape.Checked)
                 this.canvas.addShape();
-
+            
             this.drawingCanvas.Invalidate();
         }
 
@@ -174,12 +158,13 @@ namespace LimitlessDrawEngine
 
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDrawing)
+            if (isDrawing && this.canvas.SelectedShape == null)
             {
                 Point pointA = startPoint;
                 Point pointB = new Point(e.X, e.Y);
                 Pen pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
                 pen.DashStyle = this.canvas.Pen.DashStyle;
+                
                 switch (this.canvas.Type)
                 {
                     case ShapeType.Line:
@@ -198,7 +183,11 @@ namespace LimitlessDrawEngine
                         preview = new Circle(pen, pointA, pointB);
                         break;
                 }
-               // preview.Draw(this.CreateGraphics);//= new Shape(pen, pointA, pointB);
+                
+                this.drawingCanvas.Invalidate();
+            }
+            else if(this.canvas.MouseMove(new Point(e.X, e.Y)))
+            {
                 this.drawingCanvas.Invalidate();
             }
         }
