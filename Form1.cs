@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LimitlessDrawEngine.Tokenizer;
 
 namespace LimitlessDrawEngine
 {
@@ -257,10 +258,10 @@ namespace LimitlessDrawEngine
         private void AddShapeButton_Click(object sender, EventArgs e)
         {
            
-            inputShape = textBox1.Text; // 
-            canvas.Shapes.Add(new Line(new Pen(Brushes.Red, 3), new Point(Convert.ToInt32(inputShape), 100), new Point(300, 170))); // 
-            // Tokenize the input
-            // check and return an object
+            inputShape = textBox1.Text;
+
+            DrawEngineParser d = new DrawEngineParser(this.canvas);
+            d.ParsingToShape(d.Parse(inputShape));
 
             this.textBox1.Clear();
             this.sourcePanel.Controls.Clear();
