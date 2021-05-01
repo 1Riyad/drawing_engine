@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 namespace LimitlessDrawEngine
 {
@@ -13,78 +15,84 @@ namespace LimitlessDrawEngine
     {
         private static readonly byte[] Magic_Number = { 200, 30, 6 };
         private static readonly byte[] Version = { 0, 1, 0 };
-        private static readonly string ext = ".limitless";
+        //private static readonly string extension = ".drw";
 
-        // close your eyes before running
-        // this is untested code
-        public static void save(List<Shape> shapes, string filePath)
+        public static void save(List<string> sourceCode)
         {
-            filePath = filePath + ext;
             FileMode mode = FileMode.Create;
+            string fileName = "";
+            string path = @"C:\";
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = path;
+            saveFileDialog1.Filter = "drw files (*.drw)|*.drw";
 
-            if (File.Exists(filePath))
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog1.FileName;
+            }
+
+            if (File.Exists(fileName))
                 mode = FileMode.Open;
 
-            using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, mode)))
+            //using (var fbd = new FolderBrowserDialog())
+            //{
+            //    if (fbd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            //    {
+            //        filePath = fbd.SelectedPath + extension;
+            //    }
+            //}
+
+            using (FileStream fs = new FileStream(fileName, mode)) //FileStream fs = File.Create(path)
             {
-                writer.Write(Magic_Number[0]);
-                writer.Write(Magic_Number[1]);
-                writer.Write(Magic_Number[2]);
-
-                writer.Write(Version[0]);
-                writer.Write(Version[1]);
-                writer.Write(Version[2]);
-
-                writer.Write(shapes.Count);
-
-                foreach(var shape in shapes)
+                using (BinaryWriter writer = new BinaryWriter(fs))
                 {
-                    if (shape.GetType() == typeof(Line))
+                    writer.Write(Magic_Number[0]);
+                    writer.Write(Magic_Number[1]);
+                    writer.Write(Magic_Number[2]);
+
+                    writer.Write(Version[0]);
+                    writer.Write(Version[1]);
+                    writer.Write(Version[2]);
+
+                    writer.Write(sourceCode.Count);
+
+                    foreach (var text in sourceCode)
                     {
-                        writer.Write("line");
-                    }
-                    else if (shape.GetType() == typeof(Rectangle))
-                    {
-                        writer.Write("rectangle");
-                    }
-                    else if (shape.GetType() == typeof(Circle))
-                    {
-                        writer.Write("circle");
+                        writer.Write(text);
                     }
 
-                    writer.Write(shape.PointA.X);
-                    writer.Write(shape.PointA.Y);
-
-                    writer.Write(shape.PointB.X);
-                    writer.Write(shape.PointB.Y);
-
-                    writer.Write(shape.Pen.Color.Name);
-                    writer.Write((int)shape.Pen.DashStyle);
-                    writer.Write(shape.Pen.Width);
+                    writer.Close();
                 }
-
-                writer.Close();
             }
         }
 
-        public static List<Shape> load(string filePath)
+        public static List<string> load()
         {
-            filePath = filePath + ext;
-            List<Shape> shapes = new();
+            string filePath = "";
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = @"C:\";
+            openFileDialog1.Filter = "drw files (*.drw)|*.drw";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName;
+            }
+
+            List<string> sourceCode = new();
 
             if (File.Exists(filePath))
             {
-                List<byte> buffer = new();
-
                 using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
                 {
-                    if(reader.BaseStream.Length < 7)
+                    if (reader.BaseStream.Length < 7)
                     {
                         reader.Close();
                         throw new Exception("Error wrong file format");
                     }
 
-                    for(int i = 0; i < 3; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         if (reader.ReadByte() != Magic_Number[i])
                         {
@@ -104,37 +112,17 @@ namespace LimitlessDrawEngine
 
                     int count = reader.ReadInt32();
 
-                    for(int i = 0; i < count; i++)
+                    for (int i = 0; i < count; i++)
                     {
-                        string type = reader.ReadString();
-                        Point pointA = new Point(reader.ReadInt32(), reader.ReadInt32());
-                        Point pointB = new Point(reader.ReadInt32(), reader.ReadInt32());
-                        Pen pen = new Pen(Color.FromName(reader.ReadString()), reader.ReadSingle());
-
-                        Shape shape = null;
-
-                        switch(type)
-                        {
-                            case "line":
-                                shape = new Line(pen, pointA, pointB);
-                                break;
-                            case "rectangle":
-                                shape = new Rectangle(pen, pointA, pointB);
-                                break;
-                            case "circle":
-                                shape = new Circle(pen, pointA, pointB);
-                                break;
-                        }
-
-                        if (shape != null)
-                            shapes.Add(shape);
+                        sourceCode.Add(reader.ReadString());
                     }
 
                     reader.Close();
                 }
             }
+            //MessageBox.Show(String.Join("\n", sourceCode));
 
-            return shapes;
+            return sourceCode;
         }
     }
 }

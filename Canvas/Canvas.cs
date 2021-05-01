@@ -27,7 +27,8 @@ namespace LimitlessDrawEngine
         {
             this.Pen = new Pen(Brushes.Black, 2);
             this.Type = ShapeType.None;
-            this.Shapes = ShapeManager.load(@"");
+            this.Shapes = new();
+            // this.Shapes = ShapeManager.load();
         }
 
         public void addShape()

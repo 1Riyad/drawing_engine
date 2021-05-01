@@ -204,7 +204,7 @@ namespace LimitlessDrawEngine
                 this.drawingCanvas.Invalidate();
             }
         }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
             this.drawingCanvas.Visible = true;
@@ -216,8 +216,7 @@ namespace LimitlessDrawEngine
         {
             this.sourcePanel.Visible = true;
         }
-
-
+        
         private void sourcePanel_Paint(object sender, PaintEventArgs e)
         {
             printingShapesInfo();
