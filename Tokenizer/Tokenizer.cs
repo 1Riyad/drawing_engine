@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace LimitlessDrawEngine.Tokenizer
 {
@@ -65,6 +66,7 @@ namespace LimitlessDrawEngine.Tokenizer
                 t = tokenize();
 
                 if (t == null && input.hasMore())
+                   // MessageBox.Show();
                     throw new Exception("Invalid token");
             }
 
