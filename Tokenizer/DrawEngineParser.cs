@@ -79,16 +79,11 @@ namespace LimitlessDrawEngine.Tokenizer
             }
             else if ((parsedList[5].Type != color) && (parsedList[5].Type != Str))
             {
-                MessageBox.Show(parsedList[5].Value);
-                throw new Exception("Invalid color type");
-            }
-            else if ((parsedList[5].Type != Str))
-            {
                 throw new Exception("Invalid color type");
             }
             else if (parsedList[6].Type != Str)
             {
-                MessageBox.Show(parsedList[6].Value);
+               
                 throw new Exception("Invalid DashStyle type, it must be one of [Dot, Dash,...]");
             }
             else if (parsedList[7].Type != Number)
@@ -103,7 +98,6 @@ namespace LimitlessDrawEngine.Tokenizer
             List<string> s = new List<string>();
             foreach (var ss in parsedList)
                 s.Add(ss.Value);
-            MessageBox.Show(String.Join("\n", s));
 
             switch (parsedList[0].Value) {
                 // send data to canvas and call addShape

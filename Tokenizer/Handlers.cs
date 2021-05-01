@@ -91,7 +91,7 @@ namespace LimitlessDrawEngine.Tokenizer
         public override bool tokenizable(Tokenizer t)
         {
             char currentCharacter = t.input.peek();
-            return Char.IsDigit(currentCharacter);
+            return Char.IsDigit(currentCharacter) || currentCharacter == '-';
         }
         static bool isNumb(Input input)
         {
@@ -100,9 +100,10 @@ namespace LimitlessDrawEngine.Tokenizer
         }
         public override Token tokenize(Tokenizer t)
         {
-
-            Token token = new Token(t.input.Position, t.input.LineNumber,
-                "number", t.input.loop(isNumb));
+            Token token = new Token(t.input.Position, t.input.LineNumber,"number", "");
+            token.Value += t.input.step().Character;
+            //t.input.step();
+            token.Value += t.input.loop(isNumb);
 
             return token;
         }

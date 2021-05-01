@@ -291,6 +291,9 @@ namespace LimitlessDrawEngine
             {
                 d.ParsingToShape(d.Parse(line));
             }
+            this.drawingCanvas.Invalidate();
+            this.textBox1.Clear();
+            this.sourcePanel.Controls.Clear();
         }
     }
 }
