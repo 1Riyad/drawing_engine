@@ -17,7 +17,9 @@ namespace LimitlessDrawEngine
         bool isDrawing;
         Shape preview;
         Point startPoint;
-        
+        private RichTextBox text;
+        private StringBuilder sb;
+
         public Form1()
         {
             canvas = new Canvas();
@@ -216,18 +218,35 @@ namespace LimitlessDrawEngine
 
         private void sourcePanel_Paint(object sender, PaintEventArgs e)
         {
-
+            printingShapesInfo();
             this.textBox1.Visible = true;
         }
 
         public void printingShapesInfo()
         {
+            // Initialize the printing textBox
+            text = new RichTextBox();
+            text.ReadOnly = true;
+            text.Location = new Point(2, 24);
+            text.Size = new Size(750, 430);
+            text.BackColor = Color.FloralWhite;
+            sb = new StringBuilder(text.Text);
 
+            // Initialize the `add` button
+            Button b = new Button();
+            b.Location = new Point(655, 2);
+            //b.BackColor =  Color.White;
+            b.Text = "Add";
+            b.Click += new EventHandler(AddShapeButton_Click);
+
+            sourcePanel.Controls.Add(b);
+            sourcePanel.Controls.Add(textBox1);
+            sourcePanel.Controls.Add(text);
         }
 
         private void AddShapeButton_Click(object sender, EventArgs e)
         {
-
+            this.sourcePanel.Controls.Clear();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
