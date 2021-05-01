@@ -19,6 +19,7 @@ namespace LimitlessDrawEngine
         Point startPoint;
         private RichTextBox text;
         private StringBuilder sb;
+        string inputShape;
 
         public Form1()
         {
@@ -239,6 +240,15 @@ namespace LimitlessDrawEngine
             b.Text = "Add";
             b.Click += new EventHandler(AddShapeButton_Click);
 
+
+            foreach (var shape in canvas.Shapes)
+            {
+                sb.Append(Environment.NewLine);
+                sb.Append(shape.ToString());
+                text.Text = sb.ToString();
+            }
+
+            // add below to the panel
             sourcePanel.Controls.Add(b);
             sourcePanel.Controls.Add(textBox1);
             sourcePanel.Controls.Add(text);
@@ -251,6 +261,7 @@ namespace LimitlessDrawEngine
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            this.sourcePanel.Invalidate();
         }
     }
 }
