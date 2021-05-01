@@ -102,7 +102,6 @@ namespace LimitlessDrawEngine.Tokenizer
         {
             Token token = new Token(t.input.Position, t.input.LineNumber,"number", "");
             token.Value += t.input.step().Character;
-            //t.input.step();
             token.Value += t.input.loop(isNumb);
 
             return token;
