@@ -45,7 +45,7 @@ namespace LimitlessDrawEngine.Tokenizer
             char currentCharacter = t.input.peek();
             return Char.IsLetter(currentCharacter);
         }
-        static bool isId(Input input)
+        static bool isString(Input input)
         {
             char currentCharacter = input.peek();
             return Char.IsLetter(currentCharacter);
@@ -54,7 +54,32 @@ namespace LimitlessDrawEngine.Tokenizer
         {
 
             Token token = new Token(t.input.Position, t.input.LineNumber,
-                "string", t.input.loop(isId));
+                "string", t.input.loop(isString));
+
+            return token;
+        }
+    }
+
+    public class ColorTokenizer : Tokenizable
+    {
+        public override bool tokenizable(Tokenizer t)
+        {
+            char currentCharacter = t.input.peek();
+            return currentCharacter =='#' ;
+        }
+        static bool isColor(Input input)
+        {
+            char currentCharacter = input.peek();
+            return Char.IsLetterOrDigit(currentCharacter);
+        }
+        public override Token tokenize(Tokenizer t)
+        {
+            t.input.step();
+            Token token = new Token(t.input.Position, t.input.LineNumber,
+                "color", t.input.loop(isColor));
+            if (token.Value.Length < 6)
+                while (token.Value.Length < 6)
+                    token.Value += "0";
 
             return token;
         }
