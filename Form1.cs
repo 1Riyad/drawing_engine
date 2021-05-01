@@ -23,6 +23,7 @@ namespace LimitlessDrawEngine
             canvas = new Canvas();
             InitializeComponent();
             this.comboBox3.SelectedIndex = 0;
+            sourcePanel.Visible = false;
         }
 
         private void drawingCanvas_Paint(object sender, PaintEventArgs e)
@@ -198,6 +199,39 @@ namespace LimitlessDrawEngine
                 this.canvas.SelectedShape.Pen.DashStyle = (DashStyle)this.comboBox3.SelectedIndex;
                 this.drawingCanvas.Invalidate();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.drawingCanvas.Visible = true;
+            this.sourcePanel.Visible = false;
+            this.sourcePanel.Controls.Clear();
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.sourcePanel.Visible = true;
+        }
+
+
+        private void sourcePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+            this.textBox1.Visible = true;
+        }
+
+        public void printingShapesInfo()
+        {
+
+        }
+
+        private void AddShapeButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
         }
     }
 }
