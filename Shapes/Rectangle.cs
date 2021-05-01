@@ -31,7 +31,7 @@ namespace LimitlessDrawEngine
         
         public override string ToString()
         {
-            return $"rect {this.PointA.X} {this.PointA.Y} {this.PointB.X} {this.PointB.Y} {this.Pen.Color.Name} {this.Pen.DashStyle} {this.Pen.Width}";
+            return $"rect {this.PointA.X} {this.PointA.Y} {this.PointB.X} {this.PointB.Y} #{this.Pen.Color.Name} {this.Pen.DashStyle} {this.Pen.Width}";
         }
     }
 }
