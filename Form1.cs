@@ -256,6 +256,13 @@ namespace LimitlessDrawEngine
 
         private void AddShapeButton_Click(object sender, EventArgs e)
         {
+           
+            inputShape = textBox1.Text; // 
+            canvas.Shapes.Add(new Line(new Pen(Brushes.Red, 3), new Point(Convert.ToInt32(inputShape), 100), new Point(300, 170))); // 
+            // Tokenize the input
+            // check and return an object
+
+            this.textBox1.Clear();
             this.sourcePanel.Controls.Clear();
         }
 
