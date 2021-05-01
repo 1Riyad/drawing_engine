@@ -72,7 +72,6 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = this.ResizeControls[0].Y > this.ResizeControls[2].Y ? Direction.UP : Direction.DOWN;
                     return true;
                 }
             }
@@ -83,7 +82,7 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = this.ResizeControls[2].Y > this.ResizeControls[0].Y ? Direction.UP : Direction.DOWN;
+                    direction = Direction.DOWN;
                     return true;
                 }
             }
@@ -94,7 +93,7 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = this.ResizeControls[1].X > this.ResizeControls[3].X ? Direction.RIGHT : Direction.LEFT;
+                    direction = Direction.RIGHT;
                     return true;
                 }
             }
@@ -105,7 +104,7 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = this.ResizeControls[3].Y > this.ResizeControls[1].Y ? Direction.RIGHT : Direction.LEFT;
+                    direction = Direction.LEFT;
                     return true;
                 }
             }
