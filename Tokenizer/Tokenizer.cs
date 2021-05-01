@@ -66,7 +66,6 @@ namespace LimitlessDrawEngine.Tokenizer
                 t = tokenize();
 
                 if (t == null && input.hasMore())
-                   // MessageBox.Show();
                     throw new Exception("Invalid token");
             }
 
