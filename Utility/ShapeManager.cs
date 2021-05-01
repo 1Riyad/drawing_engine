@@ -34,14 +34,6 @@ namespace LimitlessDrawEngine
             if (File.Exists(fileName))
                 mode = FileMode.Open;
 
-            //using (var fbd = new FolderBrowserDialog())
-            //{
-            //    if (fbd.ShowDialog() == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-            //    {
-            //        filePath = fbd.SelectedPath + extension;
-            //    }
-            //}
-
             using (FileStream fs = new FileStream(fileName, mode)) //FileStream fs = File.Create(path)
             {
                 using (BinaryWriter writer = new BinaryWriter(fs))

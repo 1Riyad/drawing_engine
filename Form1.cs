@@ -21,6 +21,7 @@ namespace LimitlessDrawEngine
         private RichTextBox text;
         private StringBuilder sb;
         string inputShape;
+        List<string> allSourceCode;
 
         public Form1()
         {
@@ -28,6 +29,7 @@ namespace LimitlessDrawEngine
             InitializeComponent();
             this.comboBox3.SelectedIndex = 0;
             sourcePanel.Visible = false;
+            this.allSourceCode = new ();
         }
 
         private void drawingCanvas_Paint(object sender, PaintEventArgs e)
@@ -246,8 +248,8 @@ namespace LimitlessDrawEngine
                 sb.Append(Environment.NewLine);
                 sb.Append(shape.ToString());
                 text.Text = sb.ToString();
+                //this.allSourceCode.Add(Environment.NewLine);
             }
-
             // add below to the panel
             sourcePanel.Controls.Add(b);
             sourcePanel.Controls.Add(textBox1);
@@ -269,6 +271,26 @@ namespace LimitlessDrawEngine
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             this.sourcePanel.Invalidate();
+        }
+
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            foreach (var str in canvas.Shapes) {
+                allSourceCode.Add(str.ToString());
+            }
+            ShapeManager.save(this.allSourceCode);
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            this.allSourceCode = ShapeManager.load();
+            DrawEngineParser d = new DrawEngineParser(this.canvas);
+
+            foreach (var line in allSourceCode)
+            {
+                d.ParsingToShape(d.Parse(line));
+            }
         }
     }
 }
