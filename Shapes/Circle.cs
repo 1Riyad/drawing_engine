@@ -31,5 +31,10 @@ namespace LimitlessDrawEngine
             this.Width = xDistance;
             this.Height = yDistance;
         }
+
+        public override string ToString()
+        {
+            return $"cir {this.PointA.X} {this.PointA.Y} {this.PointB.X} {this.PointB.Y} {this.Pen.Color.Name} {this.Pen.DashStyle} {this.Pen.Width}";
+        }
     }
 }
