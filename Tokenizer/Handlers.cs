@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace LimitlessDrawEngine.Tokenizer
 {
-/*    class Handlers
-    {
-    }*/
     public class WhiteSpaceTokenizer : Tokenizable
     {
         public override bool tokenizable(Tokenizer t)
