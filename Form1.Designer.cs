@@ -83,7 +83,7 @@ namespace LimitlessDrawEngine
             // 
             this.loadButton.Location = new System.Drawing.Point(3, 57);
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(61, 23);
+            this.loadButton.Size = new System.Drawing.Size(59, 23);
             this.loadButton.TabIndex = 13;
             this.loadButton.Text = "load";
             this.loadButton.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@ namespace LimitlessDrawEngine
             // selectShape
             // 
             this.selectShape.AutoSize = true;
-            this.selectShape.Location = new System.Drawing.Point(23, 428);
+            this.selectShape.Location = new System.Drawing.Point(23, 435);
             this.selectShape.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.selectShape.Name = "selectShape";
             this.selectShape.Size = new System.Drawing.Size(15, 14);
@@ -124,7 +124,7 @@ namespace LimitlessDrawEngine
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.White;
-            this.pictureBox3.Location = new System.Drawing.Point(19, 336);
+            this.pictureBox3.Location = new System.Drawing.Point(18, 336);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(28, 22);
@@ -163,7 +163,7 @@ namespace LimitlessDrawEngine
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(8, 172);
+            this.numericUpDown1.Location = new System.Drawing.Point(9, 172);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             48,
@@ -204,7 +204,7 @@ namespace LimitlessDrawEngine
             "Dot",
             "DashDot",
             "DashDotDot"});
-            this.comboBox3.Location = new System.Drawing.Point(4, 203);
+            this.comboBox3.Location = new System.Drawing.Point(5, 203);
             this.comboBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(55, 23);
@@ -214,7 +214,7 @@ namespace LimitlessDrawEngine
             // shapes
             // 
             this.shapes.AutoSize = true;
-            this.shapes.Location = new System.Drawing.Point(8, 262);
+            this.shapes.Location = new System.Drawing.Point(9, 262);
             this.shapes.Name = "shapes";
             this.shapes.Size = new System.Drawing.Size(47, 15);
             this.shapes.TabIndex = 5;
@@ -237,7 +237,7 @@ namespace LimitlessDrawEngine
             // 
             // sourcePanel
             // 
-            this.sourcePanel.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.sourcePanel.BackColor = System.Drawing.Color.AliceBlue;
             this.sourcePanel.Controls.Add(this.textBox1);
             this.sourcePanel.Location = new System.Drawing.Point(0, 0);
             this.sourcePanel.Name = "sourcePanel";
@@ -247,9 +247,9 @@ namespace LimitlessDrawEngine
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(0, 1);
+            this.textBox1.Location = new System.Drawing.Point(2, 24);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(540, 23);
+            this.textBox1.Size = new System.Drawing.Size(538, 23);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -290,6 +290,7 @@ namespace LimitlessDrawEngine
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Limitless Draw Engine 2000";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

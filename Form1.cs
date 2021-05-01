@@ -30,6 +30,7 @@ namespace LimitlessDrawEngine
             this.comboBox3.SelectedIndex = 0;
             sourcePanel.Visible = false;
             this.allSourceCode = new ();
+
         }
 
         private void drawingCanvas_Paint(object sender, PaintEventArgs e)
@@ -230,15 +231,15 @@ namespace LimitlessDrawEngine
             // Initialize the printing textBox
             text = new RichTextBox();
             text.ReadOnly = true;
-            text.Location = new Point(2, 24);
-            text.Size = new Size(750, 430);
-            text.BackColor = Color.FloralWhite;
+            text.Location = new Point(2, 48);
+            text.Size = new Size(616, 430);
+            text.BackColor = Color.White;
             sb = new StringBuilder(text.Text);
 
             // Initialize the `add` button
             Button b = new Button();
-            b.Location = new Point(655, 2);
-            //b.BackColor =  Color.White;
+            b.Location = new Point(542, 24);
+            b.BackColor =  Color.White;
             b.Text = "Add";
             b.Click += new EventHandler(AddShapeButton_Click);
 
@@ -248,7 +249,6 @@ namespace LimitlessDrawEngine
                 sb.Append(Environment.NewLine);
                 sb.Append(shape.ToString());
                 text.Text = sb.ToString();
-                //this.allSourceCode.Add(Environment.NewLine);
             }
             // add below to the panel
             sourcePanel.Controls.Add(b);
