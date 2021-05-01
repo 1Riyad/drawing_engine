@@ -44,6 +44,13 @@ namespace LimitlessDrawEngine
 
             if (this.canvas.SelectedShape != null)
             {
+                if (!this.canvas.SelectedShape.Contains(startPoint))
+                {
+                    this.canvas.SelectedShape.isSelected = false;
+                    this.canvas.SelectedShape = null;
+                    return;
+                }
+                
                 this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
                 this.panel3.BackColor = this.canvas.SelectedShape.Color;
                 this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;

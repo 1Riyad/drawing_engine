@@ -63,9 +63,8 @@ namespace LimitlessDrawEngine
                 
                 foreach (var shape in this.Shapes)
                 {
-                    if (shape.ResizeControlContains(mousePoint, out direction))
+                    if (shape.ResizeControlContains(mousePoint))
                     {
-                        this.direction = direction;
                         this.ResizeMode = true;
                     }
                 }

@@ -17,6 +17,7 @@ namespace LimitlessDrawEngine
         public System.Drawing.Rectangle Selection { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public string resizing = "None";
         public List<System.Drawing.Rectangle> ResizeControls = new();
         
         public Shape(Pen pen, Point pointA, Point pointB)
@@ -27,6 +28,13 @@ namespace LimitlessDrawEngine
             
             this.ResizeControls.Add(new System.Drawing.Rectangle(0, 0, 0, 0));
             this.ResizeControls.Add(new System.Drawing.Rectangle(0, 0, 0, 0));
+
+            if (this is Line)
+            {
+                ResizeControls[0] = new System.Drawing.Rectangle(this.PointA.X - 4, this.PointA.Y - 4, 8, 8);
+                ResizeControls[1] = new System.Drawing.Rectangle(this.PointB.X - 4, this.PointB.Y - 4, 8, 8);
+            }
+            
             this.ResizeControls.Add(new System.Drawing.Rectangle(0, 0, 0, 0));
             this.ResizeControls.Add(new System.Drawing.Rectangle(0, 0, 0, 0));
             this.update();
@@ -67,10 +75,8 @@ namespace LimitlessDrawEngine
             return contains;
         }
         
-        public bool ResizeControlContains(Point mousePoint, out Direction direction)
+        public bool ResizeControlContains(Point mousePoint)
         {
-            direction = Direction.Up;
-
             if (this is Line)
             {
                 using (GraphicsPath gp = new GraphicsPath())
@@ -79,6 +85,7 @@ namespace LimitlessDrawEngine
                     
                     if (gp.IsVisible(mousePoint))
                     {
+                        this.resizing = "PointA";
                         return true;
                     }
                 }
@@ -89,7 +96,7 @@ namespace LimitlessDrawEngine
                     
                     if (gp.IsVisible(mousePoint))
                     {
-                        direction = Direction.Down;
+                        this.resizing = "PointB";
                         return true;
                     }
                 }
@@ -103,6 +110,14 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
+                    if (this.PointA.Y < this.PointB.Y)
+                    {
+                        this.resizing = "PointA.Y";
+                    }
+                    else
+                    {
+                        this.resizing = "PointB.Y";
+                    }
                     return true;
                 }
             }
@@ -113,7 +128,14 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = Direction.Down;
+                    if (this.PointA.Y > this.PointB.Y)
+                    {
+                        this.resizing = "PointA.Y";
+                    }
+                    else
+                    {
+                        this.resizing = "PointB.Y";
+                    }
                     return true;
                 }
             }
@@ -124,7 +146,14 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = Direction.Right;
+                    if (this.PointA.X > this.PointB.X)
+                    {
+                        this.resizing = "PointA.X";
+                    }
+                    else
+                    {
+                        this.resizing = "PointB.X";
+                    }
                     return true;
                 }
             }
@@ -135,7 +164,14 @@ namespace LimitlessDrawEngine
 
                 if (gp.IsVisible(mousePoint))
                 {
-                    direction = Direction.Left;
+                    if (this.PointA.X < this.PointB.X)
+                    {
+                        this.resizing = "PointA.X";
+                    }
+                    else
+                    {
+                        this.resizing = "PointB.X";
+                    }
                     return true;
                 }
             }
@@ -166,25 +202,8 @@ namespace LimitlessDrawEngine
             
             if (this is Line)
             {
-                if (this.PointA.Y > this.PointB.Y)
-                {
-                    x1 = this.PointA.X - (resizeControlWidth / 2);
-                    x2 = this.PointB.X - (resizeControlWidth / 2);
-                    
-                    y1 = this.PointA.Y - (resizeControlWidth / 2);
-                    y2 = this.PointB.Y - (resizeControlWidth / 2);
-                }
-                else
-                {
-                    x1 = this.PointB.X - (resizeControlWidth / 2);
-                    x2 = this.PointA.X - (resizeControlWidth / 2);
-                    
-                    y1 = this.PointB.Y - (resizeControlWidth / 2);
-                    y2 = this.PointA.Y - (resizeControlWidth / 2);
-                }
-                
-                ResizeControls[0] = new System.Drawing.Rectangle(x1, y1, resizeControlWidth, resizeControlWidth);
-                ResizeControls[1] = new System.Drawing.Rectangle(x2, y2, resizeControlWidth, resizeControlWidth);
+                this.ResizeControls[0] = new System.Drawing.Rectangle(this.PointA.X - 4, this.PointA.Y - 4, 8, 8);
+                this.ResizeControls[1] = new System.Drawing.Rectangle(this.PointB.X - 4, this.PointB.Y - 4, 8, 8);
                 return;
             }
             
@@ -216,59 +235,27 @@ namespace LimitlessDrawEngine
         {
             if (this is Line)
             {
-                switch (direction)
-                {
-                    case Direction.Up:
-                        if (this.PointA.Y > this.PointB.Y)
-                        {
-                            this.PointA = new Point(mousePoint.X, mousePoint.Y);
-                        }
-                        else
-                        {
-                            this.PointB = new Point(mousePoint.X, mousePoint.Y);
-                        }
-                        break;
-                    case Direction.Down:
-                        if (this.PointA.Y < this.PointB.Y)
-                        {
-                            this.PointA = new Point(mousePoint.X, mousePoint.Y);
-                        }
-                        else
-                        {
-                            this.PointB = new Point(mousePoint.X, mousePoint.Y);
-                        }
-                        break;
-                }
-                
+                if (this.resizing.Equals("PointA"))
+                    this.PointA = new Point(mousePoint.X, mousePoint.Y);
+                else if (this.resizing.Equals("PointB"))
+                    this.PointB = new Point(mousePoint.X, mousePoint.Y);
                 update();
                 return;
             }
-            
-            switch (direction)
+
+            switch (this.resizing)
             {
-                case Direction.Up:
-                    if (this.PointA.Y < this.PointB.Y)
-                        this.PointA = new Point(this.PointA.X, mousePoint.Y);
-                    else
-                        this.PointB = new Point(this.PointB.X, mousePoint.Y);
+                case "PointA.X":
+                    this.PointA = new Point(mousePoint.X, this.PointA.Y);
                     break;
-                case Direction.Down:
-                    if (this.PointA.Y > this.PointB.Y)
-                        this.PointA = new Point(this.PointA.X, mousePoint.Y);
-                    else
-                        this.PointB = new Point(this.PointB.X, mousePoint.Y);
+                case "PointB.X":
+                    this.PointB = new Point(mousePoint.X, this.PointB.Y);
                     break;
-                case Direction.Left:
-                    if (this.PointA.X < this.PointB.X)
-                        this.PointA = new Point(mousePoint.X, this.PointA.Y);
-                    else
-                        this.PointB = new Point(mousePoint.X, this.PointB.Y);
+                case "PointA.Y":
+                    this.PointA = new Point(this.PointA.X, mousePoint.Y);
                     break;
-                case Direction.Right:
-                    if (this.PointA.X > this.PointB.X)
-                        this.PointA = new Point(mousePoint.X, this.PointA.Y);
-                    else
-                        this.PointB = new Point(mousePoint.X, this.PointB.Y);
+                case "PointB.Y":
+                    this.PointB = new Point(this.PointB.X, mousePoint.Y);
                     break;
             }
             
