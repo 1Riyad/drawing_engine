@@ -44,11 +44,9 @@ namespace LimitlessDrawEngine
 
             if (this.canvas.SelectedShape != null)
             {
-
                 this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
                 this.panel3.BackColor = this.canvas.SelectedShape.Color;
                 this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
-
             }
             else if (this.canvas.Mode != CursorMode.Selection)
             {
@@ -69,6 +67,7 @@ namespace LimitlessDrawEngine
             this.canvas.IsMouseDown = false;
             isDrawing = false;
             preview = null;
+            this.canvas.ResizeMode = false;
 
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;

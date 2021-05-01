@@ -8,6 +8,6 @@ namespace LimitlessDrawEngine
 {
     public enum Direction
     {
-        UP, DOWN, RIGHT, LEFT
+        Up, Down, Right, Left
     }
 }

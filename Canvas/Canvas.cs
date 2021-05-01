@@ -46,46 +46,27 @@ namespace LimitlessDrawEngine
             }
         }
 
-        public void MouseDown(Point point)
+        public void MouseDown(Point mousePoint)
         {
             this.IsMouseDown = true;
-            this.pointA.X = point.X;
-            this.pointA.Y = point.Y;
+            this.pointA.X = mousePoint.X;
+            this.pointA.Y = mousePoint.Y;
 
             if (this.SelectedShape != null)
             {
-                int x = point.X - this.SelectedShape.Center.X;
-                int y = point.Y - this.SelectedShape.Center.Y;
+                int x = mousePoint.X - this.SelectedShape.Center.X;
+                int y = mousePoint.Y - this.SelectedShape.Center.Y;
 
                 this.DeltaCenter = new Point(x, y);
 
-                int xDistance = Math.Max(x, this.SelectedShape.Center.X) - Math.Min(x, this.SelectedShape.Center.X);
-                int yDistance = Math.Max(y, this.SelectedShape.Center.Y) - Math.Min(y, this.SelectedShape.Center.Y);
-
-                if (xDistance !> ((this.SelectedShape.Width / 2) * 0.6) &&
-                    yDistance !> ((this.SelectedShape.Height / 2) * 0.6))
-                    return;
-
-                if (xDistance > yDistance)
+                Direction direction;
+                
+                foreach (var shape in this.Shapes)
                 {
-                    if(xDistance > (this.SelectedShape.Width / 2))
+                    if (shape.ResizeControlContains(mousePoint, out direction))
                     {
-                        direction = Direction.RIGHT;
-                    }
-                    else
-                    {
-                        direction = Direction.LEFT;
-                    }
-                }
-                else
-                {
-                    if (yDistance > (this.SelectedShape.Height / 2))
-                    {
-                        direction = Direction.DOWN;
-                    }
-                    else
-                    {
-                        direction = Direction.UP;
+                        this.direction = direction;
+                        this.ResizeMode = true;
                     }
                 }
             }
@@ -164,23 +145,23 @@ namespace LimitlessDrawEngine
             }
         }
 
-        public bool MouseMove(Point point)
+        public bool MouseMove(Point mousePoint)
         {
-            if(this.IsMouseDown && this.SelectedShape != null && this.SelectedShape.Contains(point))
+            if(this.IsMouseDown && this.SelectedShape != null)
             {
-                int cendx = point.X - this.SelectedShape.Center.X;
-                int cendy = point.Y - this.SelectedShape.Center.Y;
+                int cendx = mousePoint.X - this.SelectedShape.Center.X;
+                int cendy = mousePoint.Y - this.SelectedShape.Center.Y;
 
                 int x = cendx - this.DeltaCenter.X;
                 int y = cendy - this.DeltaCenter.Y;
 
-                if (!this.ResizeMode)
+                if (!this.ResizeMode && this.Mode == CursorMode.Selection)
                 {
                     this.SelectedShape.move(x, y);
                 }
                 else
                 {
-                    this.SelectedShape.resize(this.direction, (x + y) / 2);
+                    this.SelectedShape.resize(this.direction, mousePoint);
                 }
                 return true;
             }

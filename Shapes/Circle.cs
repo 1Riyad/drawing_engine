@@ -9,27 +9,11 @@ namespace LimitlessDrawEngine
 {
     public class Circle : Shape
     {
-        public Point TopLeftCorner { get; set; }
-
-        public Circle(Pen pen, Point pointA, Point pointB) : base(pen, pointA, pointB)
-        {
-            this.update();
-        }
+        public Circle(Pen pen, Point pointA, Point pointB) : base(pen, pointA, pointB) {}
 
         public override void Draw(Graphics graphic)
         {
             graphic.DrawEllipse(this.Pen, this.TopLeftCorner.X, this.TopLeftCorner.Y, this.Width, this.Height);
-        }
-
-        public override void update()
-        {
-            base.update();
-
-            int xDistance = Math.Max(this.PointA.X, this.PointB.X) - Math.Min(this.PointA.X, this.PointB.X);
-            int yDistance = Math.Max(this.PointA.Y, this.PointB.Y) - Math.Min(this.PointA.Y, this.PointB.Y);
-            this.TopLeftCorner = new Point(Math.Min(this.PointA.X, this.PointB.X), Math.Min(this.PointA.Y, this.PointB.Y));
-            this.Width = xDistance;
-            this.Height = yDistance;
         }
     }
 }
