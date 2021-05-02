@@ -102,7 +102,7 @@ namespace LimitlessDrawEngine.Tokenizer
             switch (parsedList[0].Value) {
                 // send data to canvas and call addShape
                 case "line":
-                    this.canvas.Type = ShapeType.Line;
+                    this.canvas.SelectedShapeType = ShapeType.Line;
                     this.canvas.pointA = new System.Drawing.Point(int.Parse(parsedList[1].Value), int.Parse(parsedList[2].Value));
                     this.canvas.pointB = new System.Drawing.Point(int.Parse(parsedList[3].Value), int.Parse(parsedList[4].Value));
                     if (parsedList[5].Type == Str)
@@ -137,7 +137,7 @@ namespace LimitlessDrawEngine.Tokenizer
                     this.canvas.addShape();
                     break;
                 case "rect":
-                    this.canvas.Type = ShapeType.RectAngle;
+                    this.canvas.SelectedShapeType = ShapeType.RectAngle;
                     this.canvas.pointA = new System.Drawing.Point(int.Parse(parsedList[1].Value), int.Parse(parsedList[2].Value));
                     this.canvas.pointB = new System.Drawing.Point(int.Parse(parsedList[3].Value), int.Parse(parsedList[4].Value));
                     if (parsedList[5].Type == Str)
@@ -173,7 +173,7 @@ namespace LimitlessDrawEngine.Tokenizer
                     this.canvas.addShape();
                     break;
                 case "cir":
-                    this.canvas.Type = ShapeType.Circle;
+                    this.canvas.SelectedShapeType = ShapeType.Circle;
                     this.canvas.pointA = new System.Drawing.Point(int.Parse(parsedList[1].Value), int.Parse(parsedList[2].Value));
                     this.canvas.pointB = new System.Drawing.Point(int.Parse(parsedList[3].Value), int.Parse(parsedList[4].Value));
                     if (parsedList[5].Type == Str)

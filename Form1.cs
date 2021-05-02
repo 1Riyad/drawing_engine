@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LimitlessDrawEngine.Tokenizer;
 
@@ -50,11 +46,16 @@ namespace LimitlessDrawEngine
 
             if (this.canvas.SelectedShape != null)
             {
-
+                if (!this.canvas.SelectedShape.Contains(startPoint))
+                {
+                    this.canvas.SelectedShape.isSelected = false;
+                    this.canvas.SelectedShape = null;
+                    return;
+                }
+                
                 this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
-                this.panel3.BackColor = this.canvas.SelectedShape.Color;
+                this.panel3.BackColor = this.canvas.SelectedShape.Pen.Color;
                 this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
-
             }
             else if (this.canvas.Mode != CursorMode.Selection)
             {
@@ -75,6 +76,7 @@ namespace LimitlessDrawEngine
             this.canvas.IsMouseDown = false;
             isDrawing = false;
             preview = null;
+            this.canvas.ResizeMode = false;
 
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
@@ -105,18 +107,18 @@ namespace LimitlessDrawEngine
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.Line;
+            this.canvas.SelectedShapeType = ShapeType.Line;
         }
 
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.RectAngle;
+            this.canvas.SelectedShapeType = ShapeType.RectAngle;
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.Circle;
+            this.canvas.SelectedShapeType = ShapeType.Circle;
         }
 
         private void updateColor()
@@ -160,6 +162,14 @@ namespace LimitlessDrawEngine
         {
             if(this.canvas.Mode == CursorMode.Selection)
                 this.canvas.toggleSelection(new Point(e.X, e.Y));
+
+            if (this.canvas.SelectedShape != null)
+            {
+                this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
+                this.panel3.BackColor = this.canvas.SelectedShape.Pen.Color;
+                this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
+                this.drawingCanvas.Invalidate();
+            }
         }
 
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -171,7 +181,7 @@ namespace LimitlessDrawEngine
                 Pen pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
                 pen.DashStyle = this.canvas.Pen.DashStyle;
                 
-                switch (this.canvas.Type)
+                switch (this.canvas.SelectedShapeType)
                 {
                     case ShapeType.Line:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
