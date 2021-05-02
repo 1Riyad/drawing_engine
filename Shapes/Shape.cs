@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace LimitlessDrawEngine
+namespace LimitlessDrawEngine.Shapes
 {
     public abstract class Shape
     {
@@ -230,7 +230,7 @@ namespace LimitlessDrawEngine
             update();
         }
         
-        public void resize(Direction direction, Point mousePoint)
+        public void resize(Point mousePoint)
         {
             if (this is Line)
             {

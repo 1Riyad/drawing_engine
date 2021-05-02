@@ -1,4 +1,4 @@
-﻿namespace LimitlessDrawEngine
+﻿namespace LimitlessDrawEngine.Canvas
 {
     public enum CursorMode
     {

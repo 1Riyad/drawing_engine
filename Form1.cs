@@ -4,13 +4,16 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
+using LimitlessDrawEngine.Canvas;
+using LimitlessDrawEngine.Shapes;
 using LimitlessDrawEngine.Tokenizer;
+using LimitlessDrawEngine.Utility;
 
 namespace LimitlessDrawEngine
 {
     public partial class Form1 : Form
     {
-        private Canvas canvas;
+        private Canvas.Canvas canvas;
         bool isDrawing;
         Shape preview;
         Point startPoint;
@@ -21,7 +24,7 @@ namespace LimitlessDrawEngine
 
         public Form1()
         {
-            canvas = new Canvas();
+            canvas = new Canvas.Canvas();
             InitializeComponent();
             this.comboBox3.SelectedIndex = 0;
             sourcePanel.Visible = false;
@@ -191,7 +194,7 @@ namespace LimitlessDrawEngine
                     case ShapeType.RectAngle:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
                         pen.DashStyle = this.canvas.Pen.DashStyle;
-                        preview = new Rectangle(pen, pointA, pointB);
+                        preview = new Shapes.Rectangle(pen, pointA, pointB);
                         break;
                     case ShapeType.Circle:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);

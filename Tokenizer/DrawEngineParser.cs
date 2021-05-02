@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using LimitlessDrawEngine.Canvas;
 
 namespace LimitlessDrawEngine.Tokenizer
 {
@@ -17,9 +14,9 @@ namespace LimitlessDrawEngine.Tokenizer
         protected string KeyComma = "comma";
         protected string KeyWhitespace = "whitespace";
         protected string color = "color";
-        private Canvas canvas;
-
-        public DrawEngineParser(Canvas canvas)
+        private Canvas.Canvas canvas;
+        
+        public DrawEngineParser(Canvas.Canvas canvas)
         {
             this.canvas = canvas;
         } 

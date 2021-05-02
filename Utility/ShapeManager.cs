@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace LimitlessDrawEngine
+namespace LimitlessDrawEngine.Utility
 {
     public class ShapeManager
     {
         private static readonly byte[] Magic_Number = { 200, 30, 6 };
         private static readonly byte[] Version = { 0, 1, 0 };
-        //private static readonly string extension = ".drw";
 
         public static void save(List<string> sourceCode)
         {
@@ -28,7 +27,7 @@ namespace LimitlessDrawEngine
             if (File.Exists(fileName))
                 mode = FileMode.Open;
 
-            using (FileStream fs = new FileStream(fileName, mode)) //FileStream fs = File.Create(path)
+            using (FileStream fs = new FileStream(fileName, mode))
             {
                 using (BinaryWriter writer = new BinaryWriter(fs))
                 {
@@ -106,8 +105,7 @@ namespace LimitlessDrawEngine
                     reader.Close();
                 }
             }
-            //MessageBox.Show(String.Join("\n", sourceCode));
-
+            
             return sourceCode;
         }
     }

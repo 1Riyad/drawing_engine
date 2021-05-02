@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LimitlessDrawEngine
+namespace LimitlessDrawEngine.Shapes
 {
     public class Circle : Shape
     {

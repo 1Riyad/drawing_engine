@@ -52,6 +52,7 @@ namespace LimitlessDrawEngine.Tokenizer
                 else return '\0';
             }
         }
+        
         public Input(string input)
         {
             this.input = input;
@@ -59,17 +60,19 @@ namespace LimitlessDrawEngine.Tokenizer
             this.position = -1;
             this.lineNumber = 1;
         }
+        
         public bool hasMore(int numOfSteps = 1)
         {
             if (numOfSteps <= 0) throw new Exception("Invalid number of steps");
             return (this.position + numOfSteps) < this.length;
         }
+        
         public bool hasLess(int numOfSteps = 1)
         {
             if (numOfSteps <= 0) throw new Exception("Invalid number of steps");
             return (this.position - numOfSteps) > -1;
         }
-        //callback -> delegate
+        
         public Input step(int numOfSteps = 1)
         {
             if (this.hasMore(numOfSteps))
@@ -80,6 +83,7 @@ namespace LimitlessDrawEngine.Tokenizer
             }
             return this;
         }
+        
         public Input back(int numOfSteps = 1)
         {
             if (this.hasLess(numOfSteps))
@@ -90,12 +94,15 @@ namespace LimitlessDrawEngine.Tokenizer
             }
             return this;
         }
+        
         public Input reset() { return this; }
+        
         public char peek(int numOfSteps = 1)
         {
             if (this.hasMore()) return this.input[this.NextPosition + (numOfSteps - 1)];
             return '\0';
         }
+        
         public string loop(InputCondition condition)
         {
             string buffer = "";

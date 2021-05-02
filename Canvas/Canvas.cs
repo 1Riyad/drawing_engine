@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using LimitlessDrawEngine.Shapes;
 
-namespace LimitlessDrawEngine
+namespace LimitlessDrawEngine.Canvas
 {
     public class Canvas
     {
@@ -78,7 +79,7 @@ namespace LimitlessDrawEngine
         {
             Pen pen = new Pen(this.Pen.Brush, this.Pen.Width);
             pen.DashStyle = this.Pen.DashStyle;
-            Rectangle rectangle = new Rectangle(pen, pointA, pointB);
+            Shapes.Rectangle rectangle = new Shapes.Rectangle(pen, pointA, pointB);
             this.Shapes.Add(rectangle);
         }
 
@@ -155,7 +156,7 @@ namespace LimitlessDrawEngine
                 }
                 else
                 {
-                    this.SelectedShape.resize(this.direction, mousePoint);
+                    this.SelectedShape.resize(mousePoint);
                 }
                 return true;
             }
