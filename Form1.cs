@@ -297,7 +297,23 @@ namespace LimitlessDrawEngine
 
         private void loadButton_Click(object sender, EventArgs e)
         {
+            if (this.canvas.Shapes.Count > 0)
+            {
+                DialogResult result = MessageBox.Show
+                    ("You have unsaved changes\nyou are about to overwrite your current board", "Confirm overwrite" , MessageBoxButtons.YesNo);
+                if (result == DialogResult.Cancel || result == DialogResult.Abort || result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            
             this.allSourceCode = ShapeManager.load();
+            
+            if (allSourceCode.Count > 0)
+            {
+                this.canvas.Shapes.Clear();
+            }
+            
             DrawEngineParser d = new DrawEngineParser(this.canvas);
 
             foreach (var line in allSourceCode)
