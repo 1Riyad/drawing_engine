@@ -7,11 +7,10 @@ namespace LimitlessDrawEngine
 {
     public abstract class Shape
     {
-        public Pen Pen { get; set; }
+        public Pen Pen { get; }
         public Point PointA { get; set; }
         public Point PointB { get; set; }
         public Point Center { get; set; }
-        public Color Color { get; set; }
         public bool isSelected { get; set; }
         public Point TopLeftCorner { get; set; }
         public System.Drawing.Rectangle Selection { get; set; }

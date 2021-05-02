@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace LimitlessDrawEngine
 {
     public class Canvas
     {
-        public List<Shape> Shapes { get; set; }
-        public Color CurrentColor { get; set; }
-        public PictureBox CurrentColorDisplay { get; set; }
-        public ShapeType Type { get; set; }
+        public List<Shape> Shapes { get; }
+        public ShapeType SelectedShapeType { get; set; }
         public Shape SelectedShape { get; set; }
-        public Pen Pen { get; set; }
+        public Pen Pen { get; }
 
-        public Point pointA = new Point(0, 0);
-        public Point pointB = new Point(0, 0);
+        private Point pointA;
+        public Point pointB;
         public Point DeltaCenter { get; set; }
 
         public bool ResizeMode { get; set; }
@@ -26,13 +22,13 @@ namespace LimitlessDrawEngine
         public Canvas()
         {
             this.Pen = new Pen(Brushes.Black, 2);
-            this.Type = ShapeType.None;
+            this.SelectedShapeType = ShapeType.None;
             this.Shapes = ShapeManager.load(@"");
         }
 
         public void addShape()
         {
-            switch (this.Type)
+            switch (this.SelectedShapeType)
             {
                 case ShapeType.Line:
                     this.addLine();
