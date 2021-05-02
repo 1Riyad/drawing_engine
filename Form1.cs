@@ -14,6 +14,7 @@ namespace LimitlessDrawEngine
     public partial class Form1 : Form
     {
         private Canvas.Canvas canvas;
+        private bool loading = false;
         bool isDrawing;
         Shape preview;
         Point startPoint;
@@ -81,11 +82,16 @@ namespace LimitlessDrawEngine
             preview = null;
             this.canvas.ResizeMode = false;
 
+            if (loading)
+            {
+                loading = false;
+                return;
+            }
+
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
             this.canvas.Pen.DashStyle = (DashStyle) this.comboBox3.SelectedIndex;
-  
-
+            
             if (!this.selectShape.Checked)
                 this.canvas.addShape();
             
@@ -320,6 +326,9 @@ namespace LimitlessDrawEngine
             {
                 d.ParsingToShape(d.Parse(line));
             }
+            
+            this.loading = true;
+            
             this.drawingCanvas.Invalidate();
             this.textBox1.Clear();
             this.sourcePanel.Controls.Clear();
