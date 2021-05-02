@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LimitlessDrawEngine.Tokenizer
+namespace DrawingEngine.Tokenizer
 {
     public class WhiteSpaceTokenizer : Tokenizable
     {

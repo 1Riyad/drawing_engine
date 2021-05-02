@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace LimitlessDrawEngine
+namespace DrawingEngine.Utility
 {
     public class ShapeManager
     {
         private static readonly byte[] Magic_Number = { 200, 30, 6 };
         private static readonly byte[] Version = { 0, 1, 0 };
-        //private static readonly string extension = ".drw";
 
         public static void save(List<string> sourceCode)
         {
@@ -30,11 +23,15 @@ namespace LimitlessDrawEngine
             {
                 fileName = saveFileDialog1.FileName;
             }
+            else
+            {
+                return;
+            }
 
             if (File.Exists(fileName))
                 mode = FileMode.Open;
 
-            using (FileStream fs = new FileStream(fileName, mode)) //FileStream fs = File.Create(path)
+            using (FileStream fs = new FileStream(fileName, mode))
             {
                 using (BinaryWriter writer = new BinaryWriter(fs))
                 {
@@ -70,6 +67,10 @@ namespace LimitlessDrawEngine
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 filePath = openFileDialog1.FileName;
+            }
+            else
+            {
+                return null;
             }
 
             List<string> sourceCode = new();
@@ -112,8 +113,7 @@ namespace LimitlessDrawEngine
                     reader.Close();
                 }
             }
-            //MessageBox.Show(String.Join("\n", sourceCode));
-
+            
             return sourceCode;
         }
     }

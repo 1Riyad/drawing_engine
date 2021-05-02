@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using LimitlessDrawEngine.Tokenizer;
+using DrawingEngine.Canvas;
+using DrawingEngine.Shapes;
+using DrawingEngine.Tokenizer;
+using DrawingEngine.Utility;
 
-namespace LimitlessDrawEngine
+namespace DrawingEngine
 {
     public partial class Form1 : Form
     {
-        private Canvas canvas;
+        private Canvas.Canvas canvas;
+        private bool loading = false;
         bool isDrawing;
         Shape preview;
         Point startPoint;
@@ -25,7 +25,7 @@ namespace LimitlessDrawEngine
 
         public Form1()
         {
-            canvas = new Canvas();
+            canvas = new Canvas.Canvas();
             InitializeComponent();
             this.comboBox3.SelectedIndex = 0;
             sourcePanel.Visible = false;
@@ -51,11 +51,16 @@ namespace LimitlessDrawEngine
 
             if (this.canvas.SelectedShape != null)
             {
-
+                if (!this.canvas.SelectedShape.Contains(startPoint))
+                {
+                    this.canvas.SelectedShape.isSelected = false;
+                    this.canvas.SelectedShape = null;
+                    return;
+                }
+                
                 this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
-                this.panel3.BackColor = this.canvas.SelectedShape.Color;
+                this.panel3.BackColor = this.canvas.SelectedShape.Pen.Color;
                 this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
-
             }
             else if (this.canvas.Mode != CursorMode.Selection)
             {
@@ -76,12 +81,18 @@ namespace LimitlessDrawEngine
             this.canvas.IsMouseDown = false;
             isDrawing = false;
             preview = null;
+            this.canvas.ResizeMode = false;
+
+            if (loading)
+            {
+                loading = false;
+                return;
+            }
 
             this.canvas.pointB.X = e.X;
             this.canvas.pointB.Y = e.Y;
             this.canvas.Pen.DashStyle = (DashStyle) this.comboBox3.SelectedIndex;
-  
-
+            
             if (!this.selectShape.Checked)
                 this.canvas.addShape();
             
@@ -106,18 +117,18 @@ namespace LimitlessDrawEngine
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.Line;
+            this.canvas.SelectedShapeType = ShapeType.Line;
         }
 
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.RectAngle;
+            this.canvas.SelectedShapeType = ShapeType.RectAngle;
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            this.canvas.Type = ShapeType.Circle;
+            this.canvas.SelectedShapeType = ShapeType.Circle;
         }
 
         private void updateColor()
@@ -161,6 +172,14 @@ namespace LimitlessDrawEngine
         {
             if(this.canvas.Mode == CursorMode.Selection)
                 this.canvas.toggleSelection(new Point(e.X, e.Y));
+
+            if (this.canvas.SelectedShape != null)
+            {
+                this.numericUpDown1.Value = (decimal)this.canvas.SelectedShape.Pen.Width;
+                this.panel3.BackColor = this.canvas.SelectedShape.Pen.Color;
+                this.comboBox3.SelectedIndex = (int)this.canvas.SelectedShape.Pen.DashStyle;
+                this.drawingCanvas.Invalidate();
+            }
         }
 
         private void drawingCanvas_MouseMove(object sender, MouseEventArgs e)
@@ -172,7 +191,7 @@ namespace LimitlessDrawEngine
                 Pen pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
                 pen.DashStyle = this.canvas.Pen.DashStyle;
                 
-                switch (this.canvas.Type)
+                switch (this.canvas.SelectedShapeType)
                 {
                     case ShapeType.Line:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
@@ -182,7 +201,7 @@ namespace LimitlessDrawEngine
                     case ShapeType.RectAngle:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
                         pen.DashStyle = this.canvas.Pen.DashStyle;
-                        preview = new Rectangle(pen, pointA, pointB);
+                        preview = new Shapes.Rectangle(pen, pointA, pointB);
                         break;
                     case ShapeType.Circle:
                         pen = new Pen(this.canvas.Pen.Brush, this.canvas.Pen.Width);
@@ -284,16 +303,44 @@ namespace LimitlessDrawEngine
 
         private void loadButton_Click(object sender, EventArgs e)
         {
+            if (this.canvas.Shapes.Count > 0)
+            {
+                DialogResult result = MessageBox.Show
+                    ("You have unsaved changes\nyou are about to overwrite your current board", "Confirm overwrite" , MessageBoxButtons.YesNo);
+                if (result == DialogResult.Cancel || result == DialogResult.Abort || result == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            
             this.allSourceCode = ShapeManager.load();
+
+            if (allSourceCode == null)
+                return;
+            
+            if (allSourceCode.Count > 0)
+            {
+                this.canvas.Shapes.Clear();
+            }
+            
             DrawEngineParser d = new DrawEngineParser(this.canvas);
 
             foreach (var line in allSourceCode)
             {
                 d.ParsingToShape(d.Parse(line));
             }
+            
+            this.loading = true;
+            
             this.drawingCanvas.Invalidate();
             this.textBox1.Clear();
             this.sourcePanel.Controls.Clear();
+        }
+
+        private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.canvas.Shapes.Clear();
+            this.drawingCanvas.Invalidate();
         }
     }
 }
