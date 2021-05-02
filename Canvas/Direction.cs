@@ -1,4 +1,4 @@
-﻿namespace LimitlessDrawEngine.Canvas
+﻿namespace DrawingEngine.Canvas
 {
     public enum Direction
     {

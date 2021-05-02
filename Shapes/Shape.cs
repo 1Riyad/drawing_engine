@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace LimitlessDrawEngine.Shapes
+namespace DrawingEngine.Shapes
 {
     public abstract class Shape
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace LimitlessDrawEngine.Utility
+namespace DrawingEngine.Utility
 {
     public class ShapeManager
     {
@@ -22,6 +22,10 @@ namespace LimitlessDrawEngine.Utility
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 fileName = saveFileDialog1.FileName;
+            }
+            else
+            {
+                return;
             }
 
             if (File.Exists(fileName))
@@ -63,6 +67,10 @@ namespace LimitlessDrawEngine.Utility
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 filePath = openFileDialog1.FileName;
+            }
+            else
+            {
+                return null;
             }
 
             List<string> sourceCode = new();

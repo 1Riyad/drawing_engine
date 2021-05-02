@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using LimitlessDrawEngine.Shapes;
+using DrawingEngine.Shapes;
 
-namespace LimitlessDrawEngine.Canvas
+namespace DrawingEngine.Canvas
 {
     public class Canvas
     {

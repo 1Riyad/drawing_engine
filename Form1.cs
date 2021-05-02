@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
-using LimitlessDrawEngine.Canvas;
-using LimitlessDrawEngine.Shapes;
-using LimitlessDrawEngine.Tokenizer;
-using LimitlessDrawEngine.Utility;
+using DrawingEngine.Canvas;
+using DrawingEngine.Shapes;
+using DrawingEngine.Tokenizer;
+using DrawingEngine.Utility;
 
-namespace LimitlessDrawEngine
+namespace DrawingEngine
 {
     public partial class Form1 : Form
     {
@@ -314,6 +314,9 @@ namespace LimitlessDrawEngine
             }
             
             this.allSourceCode = ShapeManager.load();
+
+            if (allSourceCode == null)
+                return;
             
             if (allSourceCode.Count > 0)
             {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using LimitlessDrawEngine.Canvas;
+using DrawingEngine.Canvas;
 
-namespace LimitlessDrawEngine.Tokenizer
+namespace DrawingEngine.Tokenizer
 {
     class DrawEngineParser
     {

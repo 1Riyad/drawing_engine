@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LimitlessDrawEngine.Shapes
+namespace DrawingEngine.Shapes
 {
     public class Rectangle : Shape
     {

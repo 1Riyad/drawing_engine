@@ -1,5 +1,5 @@
 ﻿
-namespace LimitlessDrawEngine
+namespace DrawingEngine
 {
     partial class Form1
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace LimitlessDrawEngine.Tokenizer
+namespace DrawingEngine.Tokenizer
 {
     public delegate bool InputCondition(Input input);
     
