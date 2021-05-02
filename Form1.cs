@@ -324,5 +324,11 @@ namespace LimitlessDrawEngine
             this.textBox1.Clear();
             this.sourcePanel.Controls.Clear();
         }
+
+        private void button3_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.canvas.Shapes.Clear();
+            this.drawingCanvas.Invalidate();
+        }
     }
 }
